@@ -1,0 +1,235 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ps="http://primefaces.org/sentinel"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<div class="ui sidebar sidebar-left inverted vertical menu">
+		<h:form id="formLeft">
+			<h:panelGroup id="pag1">
+				<div class="user-profile"
+					style="height: 145px !important; background-size: 260px !important; background: linear-gradient(rgba(33, 150, 243, 0.25), rgba(33, 150, 243, 0.25)), url('#{request.contextPath}/photosfondos/#{usuarioBean.getFileNameFondos(request.userPrincipal.principal.usuarioId)}') no-repeat;">
+					<img style="height: 60px !important"
+						src="#{request.contextPath}/photos/#{usuarioBean.getFileName(request.userPrincipal.principal.usuarioId)}"
+						alt="img" />
+					<h4>#{request.userPrincipal.principal.nombres}
+						#{request.userPrincipal.principal.apellidoPaterno}</h4>
+				</div>
+			</h:panelGroup>
+
+
+			<div class="ui styled accordion">
+
+				<h:commandLink action="pretty:inicio" styleClass="item"
+					process="@this">
+					<i class="fa fa-home"></i>Inicio
+				</h:commandLink>
+				
+					<h:commandLink action="pretty:historia" styleClass="item"  
+					 >
+					<i class="fa fa-users"></i>
+												Nosotros
+				</h:commandLink>
+				
+
+				<div class="title">
+					<i class="fa fa-list-alt"></i> Categorias <span><i
+						class="dropdown icon"></i></span>
+				</div>
+				<div class="content">
+
+					<div class="accordion categories-accordion">
+						<ui:repeat var="c" value="#{productoBean.listarCategoria}">
+							<div class="title">
+								<i class="fa fa-${c.nombreIcono}"></i>#{c.nombreCategoria}
+							</div>
+						</ui:repeat>
+
+					</div>
+				</div>
+
+
+				<div class="title">
+					<i class="fa fa-shopping-basket"></i> Productos <span><i
+						class="dropdown icon"></i></span>
+				</div>
+				<div class="content">
+					<h:commandLink rendered="#{request.userPrincipal.principal.perfil.equals('ADM')}" action="pretty:nuevoproducto" styleClass="item"
+						process="@this">
+						<i class="fa fa-shopping-basket"></i>Registrar
+					</h:commandLink>
+					<h:commandLink action="pretty:productos" styleClass="item"
+						process="@this">
+						<i class="fa fa-list-alt"></i>Lista Producto
+					</h:commandLink>
+
+				</div>
+				
+				
+				<h:commandLink action="pretty:mispedidos" styleClass="item" rendered="#{request.userPrincipal.principal.usuarioId != null}"
+					 >
+					<i class="fa fa-ticket-alt"></i>
+												Mis Pedidos
+				</h:commandLink>
+				
+
+				<h:commandLink action="pretty:cupones" styleClass="item" rendered="#{request.userPrincipal.principal.perfil.equals('ADM')}"
+					 >
+					<i class="fa fa-ticket-alt"></i>
+												Mis Cupones
+				</h:commandLink>
+				
+
+
+
+				<h:commandLink action="pretty:perfil" styleClass="item" rendered="#{request.userPrincipal.principal.usuarioId!=null}"
+					process="@this">
+					<f:setPropertyActionListener
+						value="#{request.userPrincipal.principal.usuarioId}"
+						target="#{usuarioBean.usuarioId}" />
+					<i class="fa fa-user"></i>
+												 Mi Perfil
+				</h:commandLink>
+
+
+
+
+				<h:commandLink rendered="#{request.userPrincipal.principal.usuarioId!=null}" action="pretty:configuracion" styleClass="item"
+					process="@this">
+					<f:setPropertyActionListener
+						value="#{request.userPrincipal.principal.usuarioId}"
+						target="#{usuarioBean.usuarioId}" />
+					<i class="fa fa-cog"></i>
+												Configuración
+				</h:commandLink>
+
+
+				<p:outputPanel rendered="#{request.userPrincipal.principal.usuarioId==null}">
+ 					<a href="#{request.contextPath}/login" class="item"> <i
+					class="fa fa-user-lock"></i> Iniciar Sesión
+					</a>
+ 				</p:outputPanel>
+ 				
+ 				<p:outputPanel rendered="#{request.userPrincipal.principal.usuarioId!=null}">
+ 					<a href="#{request.contextPath}/logout" class="item"> <i
+					class="fa fa-share"></i> Salir
+					</a>
+ 				</p:outputPanel>
+				
+			</div>
+		</h:form>
+		<!-- end sidebar left -->
+
+		<!-- sidebar search -->
+		<div class="ui sidebar search inverted right vertical menu">
+			<h:form id="formLeft1">
+				<h:panelGrid columns="2">
+					<p:inputText value="#{productoBean.nombreBusqueada}" />
+
+					<p:commandLink update=":formLeft1:pBuscado" process="@form"
+						action="#{productoBean.buscarProducto()}"
+						style="color:white !important;text-decoration:none !important;font-weight:bold !important"
+						styleClass="button">
+						<i class="fa fa-search" title="Buscar"></i>
+					</p:commandLink>
+
+				</h:panelGrid>
+
+				<p:panel style="border:none !important" id="pBuscado"
+					styleClass="content">
+					<table>
+						<ui:repeat var="x" value="#{productoBean.listarProductoBuscado}">
+							<tr>
+								<td rowspan="2"><img style="width: 50px !important"
+									src="#{request.contextPath}/photosproductos/#{productoBean.getFileName(x.fotoTop)}"
+									alt="" /></td>
+								<td><p:commandLink action="pretty:verproducto"
+										style="text-decoration:none !important"
+										value="#{x.nombreProducto}" process="@this">
+										<f:setPropertyActionListener value="#{x.idProducto}"
+											target="#{productoBean.productoId}" />
+
+									</p:commandLink></td>
+							</tr>
+							<tr>
+								<td><p:outputLabel value="#{x.cantidad}">
+										<f:convertNumber type="currency" currencySymbol="S/. " />
+										<f:view locale="es_PE" />
+									</p:outputLabel></td>
+							</tr>
+						</ui:repeat>
+					</table>
+				</p:panel>
+
+				<h5>lo más buscados</h5>
+				<ul>
+					<li><a href="">Lomo Saltado</a></li>
+					<li><a href="">Veneno a lo Pobre</a></li>
+					<li><a href="">Carapulcra de doña peta</a></li>
+				</ul>
+			</h:form>
+		</div>
+
+		<!-- end sidebar search -->
+
+		<!-- sidebar cart -->
+
+		<div class="ui sidebar cart inverted right vertical menu">
+			<h:form id="formLeft2">
+				<p:panel style="border:none !important" id="pCarrito"
+					styleClass="content">
+					<ui:repeat var="z" value="#{productoBean.listDetalleTemp}">
+						<div class="cart-remove">
+							<p:commandLink update=":formLeft2:pCarrito growl"
+								action="#{productoBean.eliminarDetallePedido()}">
+								<i class="fa fa-remove" title="Borrar"></i>
+								<f:setPropertyActionListener value="#{z.idDetallePedido}"
+									target="#{productoBean.detallePedidos.idDetallePedido}" />
+							</p:commandLink>
+						</div>
+						<div style="color: black !important" class="clear"></div>
+
+						<div class="cart-img">
+							<img
+								src="#{request.contextPath}/photosproductos/#{productoBean.getFileName(z.idFoto)}"
+								alt="" />
+						</div>
+						<div class="cart-title">
+							<a style="color: black !important">#{z.cantidad} x #{z.nombreProducto}</a>
+							<h5>
+								<p:outputLabel value="#{z.precioProducto * z.cantidad}">
+									<f:convertNumber type="currency" currencySymbol="S/. " />
+									<f:view locale="es_PE" />
+								</p:outputLabel>
+							</h5>
+						</div>
+
+					</ui:repeat>
+				</p:panel>
+				<p:panel style="border:none !important" id="pButCart"
+					styleClass="cart-button">
+
+					<ul>
+						<li><p:commandLink
+								rendered="#{productoBean.listDetalleTemp.size()!=0}"
+								action="pretty:vercarrito"
+								style="color:white !important;text-decoration:none !important;font-weight:bold !important"
+								styleClass="button">
+								<i class="fa fa-shopping-cart"></i>Ver Carrito
+						</p:commandLink></li>
+
+<!-- 						<li> -->
+<!-- 							<button class="button"> -->
+<!-- 								<i class="fa fa-send"></i>Checkout -->
+<!-- 							</button> -->
+<!-- 						</li> -->
+					</ul>
+				</p:panel>
+
+			</h:form>
+		</div>
+	</div>
+
+</ui:composition>

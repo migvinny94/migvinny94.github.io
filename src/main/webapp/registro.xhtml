@@ -1,0 +1,56 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+
+<ui:composition template="/layouts/template.xhtml">
+	<ui:define name="content">
+
+		<h:form id="formProducto">
+			<!-- settings -->
+			<div class="settings segments-page">
+				<div class="ui container">
+					<div class="pages-title">
+						<h3>CREAR CUENTA</h3>
+					</div>
+					<div class="ui form">
+						<div class="field">
+							<label>Nombres</label> 
+							<p:inputText value="#{usuarioBean.usuario.nombres}" />
+						</div>
+						<div class="field">
+							<label>Apellido Paterno</label> 
+							<p:inputText value="#{usuarioBean.usuario.apellidoPaterno}" />
+						</div>
+						<div class="field">
+							<label>Apellido Materno</label> 
+							<p:inputText value="#{usuarioBean.usuario.apellidoMaterno}" />
+						</div>
+						<div class="field">
+							<label>Alias / UserName</label> 
+							<p:inputText value="#{usuarioBean.usuario.username}" />
+						</div>
+						
+						<div class="field">
+							<label>Email</label>
+							<p:inputText value="#{usuarioBean.usuario.email}" />
+						</div>
+						
+<div class="field">
+							<label>Contraseña</label>
+							<p:inputText type="password" value="#{usuarioBean.usuario.password}" />
+						</div>
+						
+						<p:commandLink styleClass="button" update="growl"	style="text-decoration:none !important;font-weight:bold;color:white !important" value="REGISTRAR" action="#{usuarioBean.crearUsuario()}"/>
+					</div>
+				</div>
+			</div>
+		</h:form>
+		<!-- end settings -->
+		
+		
+	</ui:define>
+</ui:composition>
+</html>

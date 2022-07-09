@@ -1,0 +1,188 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+
+<ui:composition template="/layouts/template.xhtml">
+	<ui:define name="content">
+		<h:form id="formInicio">
+
+			<div class="slider">
+				<div class="slider-show owl-carousel owl-theme">
+					<div class="slider-content">
+						<div class="mask2"></div>
+						<img
+							src="#{request.contextPath}/resources/shop/images/portada.jpg"
+							alt="" />
+						<div class="caption text-center">
+							<h2>Bienvenido a El Cajamarquino</h2>
+						</div>
+					</div>
+					<ui:repeat var="p" value="#{productoBean.listarProductoTopInicio}">
+						<div class="slider-content">
+							<div class="mask2"></div>
+							<img
+								src="./photosproductos/#{productoBean.getFileName(p.fotoTop)}"
+								alt="" />
+							<div class="caption">
+								<h2>#{p.nombreProducto}</h2>
+								<p></p>
+								
+								<p:commandLink rendered="#{request.userPrincipal.principal.usuarioId!=null}"
+									style="text-decoration:none !important;font-weight:bold;color:white !important"
+									styleClass="button" value="Compra Ahora"
+									action="pretty:verproducto">
+									<f:setPropertyActionListener value="#{p.idProducto}"
+										target="#{productoBean.productoId}" />
+
+								</p:commandLink>
+								<p:commandLink rendered="#{request.userPrincipal.principal.usuarioId==null}"
+									style="text-decoration:none !important;font-weight:bold;color:white !important"
+									styleClass="button" value="Compra Ahora"
+									action="#{productoBean.verProducto()}">
+									<f:setPropertyActionListener value="#{p.idProducto}"
+										target="#{productoBean.productoId}" />
+
+								</p:commandLink>
+							</div>
+						</div>
+
+					</ui:repeat>
+
+				</div>
+			</div>
+			<!-- end slider -->
+
+
+			<!-- categories -->
+			<section class="categories segments divider">
+				<div class="ui container">
+					<div class="section-title">
+						<h3>Categorias</h3>
+						<div class="line"></div>
+					</div>
+					<div class="ui grid">
+						<ui:repeat var="c" value="#{productoBean.listarCategoria}">
+							<div class="eight wide column pl">
+								<div class="content">
+									<a href="productos"> <i class="fa fa-#{c.nombreIcono}"></i>
+										<p>#{c.nombreCategoria}</p>
+									</a>
+								</div>
+							</div>
+						</ui:repeat>
+
+						<div class="sixteen wide column full">
+							<div class="link">
+								<a href="" class="link-color">Ver Más <i
+									class="fa fa-angle-right"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- end categories -->
+
+			<!-- product -->
+			<section class="product segments divider">
+				<div class="ui container">
+					<div class="section-title">
+						<h3>Productos Nuevos</h3>
+						<div class="line"></div>
+					</div>
+					<div class="ui grid">
+						<ui:repeat var="p2"
+							value="#{productoBean.listarProductoTopInicio}">
+							<div class="eight wide column pr">
+								<div class="content">
+									<img
+										src="./photosproductos/#{productoBean.getFileName(p2.fotoTop)}"
+										alt="" />
+
+									<h:commandLink action="pretty:verproducto" styleClass="item" rendered="#{request.userPrincipal.principal.usuarioId!=null}"
+										process="@this">
+										<f:setPropertyActionListener value="#{p2.idProducto}"
+											target="#{productoBean.productoId}" />
+											 
+												#{p2.tituloProducto}
+									</h:commandLink>
+										<h:commandLink action="#{productoBean.verProducto()}" styleClass="item" rendered="#{request.userPrincipal.principal.usuarioId==null}"
+										process="@this">
+										<f:setPropertyActionListener value="#{p2.idProducto}"
+											target="#{productoBean.productoId}" />
+											 
+												#{p2.tituloProducto}
+									</h:commandLink>
+
+									<h5>
+										<p:outputLabel value="${p2.precio}">
+											<f:convertNumber type="currency" currencySymbol="S/. " />
+											<f:view locale="es_PE" />
+										</p:outputLabel>
+									</h5>
+								</div>
+							</div>
+						</ui:repeat>
+<div class="sixteen wide column full">
+							<div class="link">
+								<a href="" class="link-color">Ver Más <i
+									class="fa fa-angle-right"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- end product -->
+
+			<!-- product -->
+			<section class="product segments">
+				<div class="ui container">
+					<div class="section-title">
+						<h3>Productos Populares</h3>
+						<div class="line"></div>
+					</div>
+					<div class="ui grid">
+						<ui:repeat var="p3"
+							value="#{productoBean.listarProductoTopInicioLikes}">
+							<div class="eight wide column pr">
+								<div class="content">
+									<img
+										src="./photosproductos/#{productoBean.getFileName(p3.fotoTop)}"
+										alt="" />
+
+									<h:commandLink action="pretty:verproducto" styleClass="item"
+										process="@this">
+										<f:setPropertyActionListener value="#{p3.idProducto}"
+											target="#{productoBean.productoId}" />
+											 
+												#{p3.tituloProducto}
+									</h:commandLink>
+
+									<h5>
+										<p:outputLabel value="${p3.precio}">
+											<f:convertNumber type="currency" currencySymbol="S/. " />
+											<f:view locale="es_PE" />
+										</p:outputLabel>
+									</h5>
+								</div>
+							</div>
+						</ui:repeat>
+<div class="sixteen wide column full">
+							<div class="link">
+								<a href="" class="link-color">Ver Más <i
+									class="fa fa-angle-right"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- end product -->
+		</h:form>
+
+
+
+	</ui:define>
+</ui:composition>
+</html>

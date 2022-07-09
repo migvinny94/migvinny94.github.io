@@ -1,0 +1,283 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+
+<ui:composition template="/layouts/template.xhtml">
+	<ui:define name="content">
+
+		<h:form id="formProducto3">
+			<div class="product-details segments-page">
+
+				<div class="ui container">
+
+					<div class="slide-product owl-carousel owl-theme">
+						<ui:repeat var="p" value="#{productoBean.listarFotoProducto}">
+							<div class="slide-content">
+								<img
+									src="#{request.contextPath}/photosproductos/#{productoBean.getFileName(p.idFotoProducto)}"
+									alt="" />
+							</div>
+						</ui:repeat>
+					</div>
+
+
+					<p:panel id="pLike" style="border:none !important">
+
+						<table style="width: 100%">
+
+							<tr>
+								<td><img
+									src="#{request.contextPath}/resources/shop/images/likeview.png"
+									alt="" /> <p:commandLink
+										style="padding:5px ;vertical-align:bottom;"
+										value="#{productoBean.producto.meGusta}"
+										action="#{productoBean.listarCalificativos()}"
+										oncomplete="PF('dialogLike').show()" update="formLike">
+										<f:setPropertyActionListener
+											value="#{productoBean.producto.idProducto}"
+											target="#{productoBean.productoId}" />
+
+									</p:commandLink></td>
+								<td style="text-align: right">
+								<p:commandButton
+										rendered="#{productoBean.listarDetalleCalificativoId.estado==1 }"
+										icon="icon-like" styleClass="LikeButton" value="Me Gusta "
+										update=":formProducto3:pLike"
+										action="#{productoBean.actualizarCalificativo()}" /> 
+								<p:commandButton
+										rendered="#{productoBean.listarDetalleCalificativoId.estado==0 }"
+										icon="icon-dislike" styleClass="DislikeButton"
+										value="Me Gusta " update=":formProducto3:pLike"
+										action="#{productoBean.actualizarCalificativo()}" />
+								<p:commandButton
+										rendered="#{productoBean.listarDetalleCalificativoId.estado==null}"
+										icon="icon-dislike" styleClass="DislikeButton"
+										value="Me Gusta " update=":formProducto3:pLike"
+										action="#{productoBean.registrarCalificativo()}" /></td>
+
+							</tr>
+						</table>
+
+					</p:panel>
+
+					<div class="desc-short">
+
+						<table style="width: 100%">
+							<tr>
+								<th colspan="2" style="text-align: left">
+									<p class="title">#{productoBean.producto.nombreProducto}</p>
+								</th>
+							</tr>
+							<tr>
+								<td><p:outputLabel value="#{productoBean.producto.precio}">
+										<f:convertNumber type="currency" currencySymbol="S/. " />
+										<f:view locale="es_PE" />
+									</p:outputLabel></td>
+								<td style="text-align: right"></td>
+							</tr>
+						</table>
+						<p>#{productoBean.producto.tituloProducto}</p>
+						<p:commandLink title="Añadir Carrito"
+							style="text-decoration:none !important;color:white !important;font-weight:bold !important"
+							styleClass="button"
+							update=":formLeft2:pCarrito,:formLeft2:pButCart growl"
+							action="#{productoBean.agregarCarrito}">
+							<i class="fa fa-shopping-cart"></i>Añadir
+						</p:commandLink>
+					</div>
+
+					<div class="desc-long">
+						<h5>Descripción</h5>
+						<p>#{productoBean.producto.descripcion}</p>
+					</div>
+					<div class="review">
+
+						<table style="width: 100%">
+
+							<tr>
+								<td>
+									<h5>Revisiones</h5>
+								</td>
+								<td style="text-align: right"><p:commandLink
+										styleClass="btn btn-default" update=":formProducto3:pReview"
+										action="#{productoBean.refrescar()}">
+										<i title="Refrescar" style="color: Gray"
+											class="Fs16 fa fa-refresh"></i>
+									</p:commandLink></td>
+
+							</tr>
+						</table>
+
+
+
+
+						<p:panel id="pReview" style="border:none !important"
+							styleClass="comment-people">
+							<ui:repeat var="c"
+								value="#{productoBean.listarComentariosByProducto}">
+
+								<div class="content">
+									<div class="icon">
+										<img
+											src="#{request.contextPath}/photos/#{usuarioBean.getFileName(c.usuarioComento.usuarioId)}"
+											alt="" />
+									</div>
+									<div class="text">
+										<h5>
+
+											#{c.nombresComento}
+											<h:panelGroup
+												rendered="#{c.usuarioComento.usuarioId==productoBean.producto.usuarioPropietario.usuarioId}">
+												<i class="fa fa-bookmark"></i>
+											</h:panelGroup>
+										</h5>
+										<p class="date">
+											<p:outputLabel value="#{c.fechaComentario}">
+												<f:convertDateTime dateStyle="full" timeStyle="short"
+													type="both" locale="es_PE" />
+											</p:outputLabel>
+										</p>
+									</div>
+									<div class="post">
+										<p>#{c.mensaje}</p>
+									</div>
+									<br />
+									<p:commandButton styleClass="CelesteButton"
+										rendered="#{request.userPrincipal.principal.usuarioId==productoBean.producto.usuarioPropietario.usuarioId and c.estadoRespuesta==0}"
+										value="Responder" update=":formRespuesta"
+										oncomplete="PF('dialogRespuesta').show();">
+										<f:setPropertyActionListener value="#{c}"
+											target="#{productoBean.comentarios}" />
+									</p:commandButton>
+								</div>
+								<h:panelGroup rendered="#{c.estadoRespuesta==1}">
+									<div class="content reply">
+										<div class="icon">
+											<img
+												src="#{request.contextPath}/photos/#{usuarioBean.getFileName(c.usuarioRespuesta.usuarioId)}"
+												alt="" />
+										</div>
+										<div class="text">
+											<h5>
+												#{c.nombresRespuesta} <i class="fa fa-bookmark"></i>
+											</h5>
+											<p class="date">
+												<p:outputLabel value="#{c.fechaRespuesta}">
+													<f:convertDateTime dateStyle="full" timeStyle="short"
+														type="both" locale="es_PE" />
+												</p:outputLabel>
+											</p>
+										</div>
+										<div class="post">
+											<p>#{c.mensajeRespuesta}</p>
+										</div>
+									</div>
+								</h:panelGroup>
+							</ui:repeat>
+
+							<div class="content-post">
+								<div class="comment-title">
+									<h5>Deja tu respuesta</h5>
+								</div>
+
+
+								<div class="field">
+									<p:inputText type="text"
+										style="width:200px !important;color:black !important"
+										disabled="true"
+										value="#{request.userPrincipal.principal.nombres} #{request.userPrincipal.principal.apellidoPaterno}" />
+								</div>
+								<div class="field">
+									<p:inputText type="text"
+										style="width:200px !important;color:black !important"
+										disabled="true"
+										value="#{request.userPrincipal.principal.email}" />
+								</div>
+								<div class="field">
+									<p:inputTextarea cols="55" rows="10"
+										value="#{productoBean.comentarios.mensaje}"
+										placeholder="Ingrese su mensaje"></p:inputTextarea>
+								</div>
+								<br />
+								<p:commandLink styleClass="button"
+									update=":formProducto3:pReview"
+									style="font-weight:bold !important;text-decoration:none !important;color:white !important"
+									action="#{productoBean.registrarComentario()}" value="Enviar" />
+							</div>
+						</p:panel>
+					</div>
+				</div>
+			</div>
+		</h:form>
+
+		<p:dialog id="dialogRespuesta" widgetVar="dialogRespuesta"
+			responsive="true" position="center" closeOnEscape="true">
+			<h:form id="formRespuesta">
+				<p:inputTextarea cols="50" rows="10"
+					value="#{productoBean.comentarios.mensajeRespuesta}"
+					placeholder="Ingrese su respuesta" />
+				<br />
+				<p:commandLink styleClass="button"
+					style="font-weight:bold !important;text-decoration:none !important;color:white !important"
+					update=":formProducto3:pReview"
+					action="#{productoBean.actualizarComentario()}" value="Enviar" />
+			</h:form>
+		</p:dialog>
+
+
+		<p:dialog id="dialogLike" widgetVar="dialogLike" responsive="true"
+			resizable="false" position="center" closeOnEscape="true"
+			closable="true">
+			<h:form id="formLike">
+				<ui:repeat var="d" value="#{productoBean.listarDetalleCalificativo}">
+
+					<table>
+						<tbody>
+							<tr>
+								<td style="text-align: center">
+
+									<div class="itemNotify">
+										<div class="notify-badge">
+											<img
+												src="#{request.contextPath}/resources/shop/images/likeview.png"
+												alt="" />
+										</div>
+										<img height="40" style="border-radius: 50%"
+											src="#{request.contextPath}/photos/#{usuarioBean.getFileName(d.idUsuario)}"
+											alt="" />
+									</div>
+								</td>
+
+
+								<td><p:commandLink
+										style="font-size:14px;text-decoration:none !important;font-weight:bold !important;padding:8px"
+										value="#{d.nombresUsuario}" action="pretty:perfil">
+
+										<f:setPropertyActionListener value="#{d.idUsuario}"
+											target="#{usuarioBean.usuarioId}" />
+
+									</p:commandLink></td>
+							</tr>
+
+						</tbody>
+
+					</table>
+
+
+
+				</ui:repeat>
+				<br />
+
+			</h:form>
+		</p:dialog>
+
+
+
+
+
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+
+	<meta charset="utf-8"></meta>
+	<meta http-equiv="x-ua-compatible" content="ie=edge"></meta>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+	<link rel="icon"
+		href="#{request.contextPath}/resources/shop/images/logo_icon.png"></link>
+	<p:growl id="growl" life="4500"   globalOnly="true" />
+	<title>CAJAMARQUINO</title>
+
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources/shop/css/font-awesome.min.css"></link>
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources/shop/css/semantic.css"></link><!-- 
+	<link rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+		integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+		crossorigin="anonymous" />
+ -->
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources/shop/css/style.css"></link>
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources/shop/css/owl.carousel.min.css"></link>
+	<link rel="stylesheet" type="text/css"
+		href="#{request.contextPath}/resources/shop/css/owl.theme.default.min.css"></link>
+	<link rel="stylesheet" type="text/html"
+		href="#{request.contextPath}/resources/shop/css/fakeLoader.css"></link>
+
+ 
+	<h:outputStylesheet name="css/core-layout.css"
+		library="primefaces-sentinel" />
+	<h:outputStylesheet name="css/theme.css" library="primefaces-sentinel" />
+
+</h:head>
+
+<h:body>
+
+
+	<ui:include src="topbar.xhtml" />
+	<ui:include src="leftmenu.xhtml" />
+	<ui:insert name="content">
+	
+	
+	</ui:insert>
+<ui:include src="footer.xhtml" />
+
+
+
+
+	<p:ajaxStatus style="display:block;height:0px;">
+		<f:facet name="default">
+
+		</f:facet>
+
+		<f:facet name="start">
+		</f:facet>
+
+		<f:facet name="complete">
+
+		</f:facet>
+	</p:ajaxStatus>
+
+	<p:ajaxStatus
+		style="background-color:transparent !important;background:transparent !important;border:none !important"
+		onstart="PF('statusDialog').show()"
+		onsuccess="PF('statusDialog').hide()" />
+
+	<p:dialog
+		style="background-color:transparent !important;background:transparent !important;border:none !important"
+		widgetVar="statusDialog" modal="true" closable="false"
+		resizable="false" showHeader="false">
+		<img
+			style="background-color: transparent !important; background: transparent !important; border: none !important; height: 20px"
+			src="#{request.contextPath}/resources/shop/images/logo_login.png" />
+	</p:dialog>
+
+	<p:dialog header="ADVERTENCIA" id="dialogLogin" widgetVar="loginDialog"   style="z-index: -2 !important;"
+		 >
+		 
+		 <p:outputPanel style="text-align:center !important">
+		 		
+		 		<h3>Para Seguir Continuando</h3><br/>
+		 		<h3>	Favor de Registrarse...</h3>
+		 	<p/>
+		 		<p:commandLink
+							style="text-decoration:none !important;color:white !important;font-weight:bold !important"
+							styleClass="button"
+							action="pretty:login">
+							<i class="fa fa-shopping-cart"></i>Iniciar Sesión
+						</p:commandLink>
+						
+						<p:commandLink
+							style="text-decoration:none !important;color:white !important;font-weight:bold !important"
+							styleClass="button"
+							action="pretty:registro">
+							<i class="fa fa-user-plus"></i>Crear una Cuenta
+						</p:commandLink>
+		 	
+		 	
+		 </p:outputPanel>
+		 
+	</p:dialog>
+
+
+
+
+
+	<!-- 	<h:outputScript name="js/jquery.min.js" library="shop" /> -->
+	<h:outputScript name="js/semantic.min.js" library="shop" />
+	<h:outputScript name="js/owl.carousel.min.js" library="shop" />
+	<h:outputScript name="js/fakeLoader.js" library="shop" />
+	<h:outputScript name="js/main.js" library="shop" />
+	<h:outputScript name="js/layout.js" library="primefaces-sentinel" />
+	<h:outputScript name="js/app.js" library="primefaces-sentinel" />
+	
+	<h:outputScript name="js/bootstrap-input-spinner.js" library="primefaces-sentinel" />
+
+ 
+
+</h:body>
+
+
+
+
+
+
+
+</html>

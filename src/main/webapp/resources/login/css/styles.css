@@ -1,0 +1,115 @@
+/*
+ * It is advised not to edit the smartadmin_production.css
+ * as this will override any changes you make in the 
+ * later versions of this theme. 
+ * 
+ * We advise that you use use this CSS to override 
+ * SmartAdmin styles. 
+ * 
+ * Rename the stylesheet to whatever your liking so it will stay
+ * unique to you with each update of SmartAdmin.
+ */
+
+/*
+ * INDEX
+ * 
+ * - HTML
+ * - BODY
+ * - CUSTOM STYLES
+ */
+html {
+	background: #fff!important;
+}
+.swal2-modal {
+	font-family: "Open Sans", Helvetica, Arial, sans-serif!important;
+}
+	
+.input-calendar {
+	color: transparent;
+	display: inline-block;
+	text-shadow: 0 0 0 gray;
+	 
+	&:focus {
+		outline: none;
+	}
+}
+.form-group {
+	margin-bottom: 5px!important;
+}
+    
+.table-foo>tbody>tr>td>table.footable-details {
+	border: none!important;
+	border-top-width: 0!important;
+	margin-bottom: 0!important;
+	background-color: #fff!important;
+}
+.table-foo>tbody>tr>td>table.footable-details>tbody>tr:nth-of-type(odd) {
+	border: none!important;
+	border-top-width: 0!important;
+	margin-bottom: 0!important;
+	background-color: #fff!important;
+}
+.table-foo>tbody>tr>td>table.footable-details>tbody>tr>th, .table-foo>tbody>tr>td>table.footable-details>tbody>tr>td {
+	border-top-width: 0!important;
+	margin-bottom: 0!important;
+	background-color: #fff!important;
+	border: none!important;
+}
+
+.panel-body {
+	display: block;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	border: 1px solid #fff;
+	border-top: none;
+}
+.panel-body ul {
+	margin: 0;
+	padding: 0;
+}
+.panel-body a.message {
+	display: block;
+	position: relative;
+}
+.panel-body a.message .message-text {
+	display: inline-block;
+	vertical-align: top;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	padding: 0;
+	line-height: normal;
+}
+.panel-body a.message .message-text {
+	display: inline-block;
+	vertical-align: top;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	padding: 0;
+	line-height: normal;
+}
+.panel-body a.message .message-text>div.number {
+	display: block;
+	font-weight: 700;
+	margin-bottom: 4px;
+	vertical-align: top;
+	line-height: 14px;
+	font-size: 14px;
+	letter-spacing: -1px;
+	text-decoration: none!important;
+}
+.icon-fav {
+	font-size: 20px!important;
+	margin-top: 7px!important;
+	color: #F1DA91!important;
+}
+.pull-center {
+	text-align:center!important;
+}
+
+.bg-color-yellow {
+	background-color: #ffc!important;
+	color: #222;
+}

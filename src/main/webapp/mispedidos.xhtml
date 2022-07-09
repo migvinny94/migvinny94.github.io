@@ -1,0 +1,134 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+
+<ui:composition template="/layouts/template.xhtml">
+	<ui:define name="content">
+
+		<h:form id="formPedido">
+			<!-- settings -->
+			<div class="settings segments-page">
+				<div class="ui container">
+					<div class="pages-title">
+				<p></p>
+						<h3>Mis Pedidos</h3>
+					</div>
+					
+				</div>
+			</div>
+			
+			<p/>
+			 <p:dataTable id="tablaPedidos" var="p" value="#{productoBean.listarPedidosGeneral}" >
+			 
+			  <p:column headerText="Nro.">
+                <h:outputText value="#{p.idPedido}" />
+            </p:column>
+            <p:column headerText="Nombre">
+                <h:outputText value="#{p.usuarioComprador.nombres}" />
+            </p:column>
+
+            <p:column headerText="Dir">
+                <h:outputText value="#{p.usuarioComprador.direccionDomicilio}" />
+            </p:column>
+
+            <p:column headerText="Fecha">
+                <h:outputText value="#{p.fechaPedido}" >
+                	<f:convertDateTime locale="es_PE"  pattern="dd/MM/yyyy HH:mm" />
+                </h:outputText>
+
+            </p:column>
+            
+    	  <p:column headerText="Estado">
+    	  
+                <h:outputText rendered="#{p.estadoPedido==0}" value="Pendiente" />
+                
+                <h:outputText rendered="#{p.estadoPedido==1}" value="En Proceso" />
+                
+                <h:outputText rendered="#{p.estadoPedido==2}" value="Entregado" />
+                
+                
+            </p:column>
+
+
+            <p:column style="width:3rem;text-align: center">
+                <p:commandButton action="#{productoBean.listarDetalle()}" update="dialogPedido,formPedidoDet" oncomplete="PF('pedidoDialog').show();" style="color:white !important" 
+                                 icon="fa fa-search" title="Editar">
+                    <f:setPropertyActionListener value="#{p}"
+                                                 target="#{productoBean.pedidos}"/>
+                </p:commandButton>
+            </p:column>
+        </p:dataTable>
+			
+		</h:form>
+	 
+	 <p:dialog id="dialogPedido" header="Mi Pedido Nro. #{productoBean.pedidos.idPedido}" widgetVar="pedidoDialog" responsive="true" 
+			position="center" closeOnEscape="true">
+			<h:form id="formPedidoDet" style="width:300px !important" >
+				 
+			
+			<p:panel id="viewCarrito" style="border:none !important;"
+						styleClass="cart-product">
+						<ui:repeat var="p" value="#{productoBean.listDetalleOficial}">
+							<div class="ui grid">
+								<div class="six wide column pr">
+									<div class="content" style="text-align:center">
+										<img width="100"
+											src="#{request.contextPath}/photosproductos/#{productoBean.getFileName(p.idFoto)}"
+											alt="" />
+									</div>
+								</div>
+								<div class="eight wide column pr">
+									<div class="content">
+										<a style="color: black; font-weight: bold">#{p.nombreProducto}</a>
+									</div>
+								<div class="six wide column pr">
+									<div class="content">
+										 Precio  :
+										<p:outputLabel value="#{p.precioProducto}">
+												<f:convertNumber type="currency" currencySymbol="S/. " />
+												<f:view locale="es_PE" />
+											</p:outputLabel>
+									</div>
+								</div>
+								 
+								<div class="six wide column pr">
+									<div class="content">
+										 Cantidad :
+										 
+											#{p.cantidad}
+											
+									</div>
+								</div>
+								 
+								</div>
+							 
+								
+							</div>
+						</ui:repeat>
+						
+						 <p:commandButton action="#{productoBean.confirmarPedido()}" value="CONFIRMAR" rendered="#{productoBean.pedidos.estadoPedido==0 and request.userPrincipal.principal.perfil.equals('ADM')}"  update=":formPedido, growl" styleClass="PurpleButton"  style="color:white !important" 
+                                 icon="fa fa-check" title="Confirmar">
+                    <f:setPropertyActionListener value="#{productoBean.pedidos.idPedido}"
+                                                 target="#{productoBean.pedidos.idPedido}"/>
+                </p:commandButton>
+                
+                 <p:commandButton action="#{productoBean.confirmarEntrega()}" value="ENTREGAR" rendered="#{productoBean.pedidos.estadoPedido==1 and request.userPrincipal.principal.perfil.equals('ADM')}" styleClass="OrangeButton" update=":formPedido, growl" style="color:white !important" 
+                                 icon="fa fa-check" title="Entrega">
+                    <f:setPropertyActionListener value="#{productoBean.pedidos.idPedido}"
+                                                 target="#{productoBean.pedidos.idPedido}"/>
+                </p:commandButton>
+					</p:panel>
+					
+					
+				
+ 
+				 
+			</h:form>
+		</p:dialog>
+		
+	</ui:define>
+</ui:composition>
+</html>

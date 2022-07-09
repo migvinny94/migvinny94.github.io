@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.systems.shop.persistence.PedidosMapper">
+
+
+	<insert id="registrarPedido" statementType="CALLABLE"
+		parameterType="Pedidos">
+		<selectKey keyProperty="idPedido" resultType="int"
+			order="BEFORE" statementType="PREPARED">
+			select ifnull(MAX(idPedido),10000000)+1
+			from
+			pedidos
+		</selectKey>
+		insert into
+		pedidos(idPedido,usuarioComprador,fechaPedido,idCupon,estadoPedido,medioPago)
+		values(#{idPedido},#{usuarioComprador.usuarioId},now(),#{cupon.idCupon},0,#{medioPago});
+		
+		
+	</insert>
+ 
+ 
+ 	 
+	
+		<select id="actualizarPedidoConfirmado" statementType="CALLABLE"
+		resultMap="listPedidos" parameterType="INTEGER">
+		
+	update pedidos
+	set estadoPedido=1
+	where idPedido=#{param1};
+	</select>
+	
+	
+		<select id="actualizarPedidoEntregado" statementType="CALLABLE"
+		resultMap="listPedidos" parameterType="INTEGER">
+		
+	update pedidos
+	set estadoPedido=2
+	where idPedido=#{param1};
+	</select>
+	
+	
+	<select id="listarPedidosPorUsuario" statementType="CALLABLE"
+		resultMap="listPedidos" parameterType="INTEGER">
+		 
+if((select perfil from usuarios where usuarioId=#{param1}) ='ADM') then
+SELECT p.*,upper(concat(u.nombres,' ',u.apellidoPaterno))nombres,u.direccionDomicilio,u.email,u.ndocumento FROM pedidos P INNER JOIN usuarios U 
+ON p.usuarioComprador=u.usuarioId;
+ELSE
+SELECT p.*,upper(concat(u.nombres,' ',u.apellidoPaterno))nombres,u.direccionDomicilio,u.email,u.ndocumento FROM pedidos P INNER JOIN usuarios U 
+ON p.usuarioComprador=u.usuarioId
+where p.usuarioComprador=#{param1};
+END IF;
+	</select>
+	
+	<select id="listarPedidos" statementType="CALLABLE"
+		resultMap="listPedidos" parameterType="INTEGER">
+		select * from pedidos where idPedido =#{param1};
+	</select>
+	 
+	
+	<resultMap id="listPedidos" type="Pedidos">
+		<id column="idPedido" property="idPedido" />
+		<result column="usuarioComprador" 	property="usuarioComprador.usuarioId" />
+		<result column="nombres" 	property="usuarioComprador.nombres" />
+		<result column="direccionDomicilio" 	property="usuarioComprador.direccionDomicilio" />
+		<result column="email" 	property="usuarioComprador.email" />
+		<result column="ndocumento" 	property="usuarioComprador.ndocumento" />
+		<result column="medioPago" 	property="medioPago"/>
+		
+	
+		
+		
+		<result column="usuarioVendedor" 	property="usuarioVendedor.usuarioId" />
+		<result column="fechaPedido" property="fechaPedido" />
+		<result column="idCupon" property="cupon.idCupon" />
+		 <result column="estadoPedido" property="estadoPedido" />
+	</resultMap>
+
+
+</mapper>

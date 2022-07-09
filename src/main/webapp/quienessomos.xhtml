@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+
+<ui:composition template="/layouts/template.xhtml">
+	<ui:define name="content">
+
+		<h:form id="formHistoria">
+		<p:spacer height="100" />
+			 <p:fieldset legend="Nosotros">
+            <p align="center" class="p-m-0">
+                La creatividad y especial sazón de un trabajo en equipo, en familia, hicieron hacer con mucho esfuerzo el nombre de nuestros restaurantes.
+                Ya con años de experiencia , nuestra premisa sigue siendo la misma que desde el primer dia de la operacion de El Cajamarquino , de disfrutar de lo que hacemos , 
+                generar experiencias positivas y complacer a nuestros comensales .
+            </p>
+            <p align="center"><img title="Restaurante" height="400" src="#{request.contextPath}/resources/shop/images/fondo1.JPG" alt=""/></p>
+            
+        </p:fieldset>
+        
+         <p:fieldset legend="Historia">
+            <p align="center" class="p-m-0">
+                En El Cajamarquino somos reconocidos por nuestro sabor, frescura y creatividad combinando la cocina marina tradicional con distintas 
+                corrientes como la cocina criolla, andina, oriental , con recetas exclusivas e innovadoras.
+            </p>
+
+  
+           <p align="center"><video controls="true"  title="Restaurante" height="400" src="#{request.contextPath}/resources/shop/images/videoplayback.mp4" alt=""/></p>
+         
+
+        </p:fieldset>
+        
+                 
+
+       
+  
+       
+			
+		</h:form>
+	 
+		
+	</ui:define>
+</ui:composition>
+</html>

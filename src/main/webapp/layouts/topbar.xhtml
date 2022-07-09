@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	   
+<!-- navbar -->
+	 
+	<div class="navbar">
+		<div class="ui container">
+			<div class="ui grid">
+				<!-- navbar toggle left -->
+				<div class="four wide column">
+					<div class="navbar-toggle-left navbar-icon">
+						<i class="fa fa-navicon"></i>
+					</div>
+				</div>
+				<!-- navbar logo -->
+				<div class="seven wide column">
+					<div class="navbar-logo">
+						<p:commandLink action="pretty:inicio" ><img title="Restaurante" height="45" src="#{request.contextPath}/resources/shop/images/logo_banner.png" alt=""/></p:commandLink>
+					</div>
+				</div>
+				<!-- navbar toggle right -->
+				<div class="five wide column">
+					<div class="navbar-toggle-right">
+						<div class="navbar-toggle-search">
+							<i class="fa fa-search"></i>
+						</div>
+						<div class="navbar-toggle-cart">
+							<i class="fa fa-shopping-cart"><sup>#{productoBean.listDetalleTemp.size()}</sup></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>  
+ 
+</ui:composition>

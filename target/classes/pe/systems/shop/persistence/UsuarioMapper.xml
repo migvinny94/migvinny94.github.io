@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.systems.shop.persistence.UsuarioMapper">
+
+
+
+<insert id="registrarUsuario" statementType="CALLABLE"
+		parameterType="Usuario">
+		<selectKey keyProperty="usuarioId" resultType="int"
+			order="BEFORE" statementType="PREPARED">
+			select ifnull(MAX(usuarioId),10000000)+1
+			from
+			usuarios
+		</selectKey>
+		insert into
+		usuarios(usuarioId,nombres,apellidoPaterno,apellidoMaterno,username,email,password,activado,perfil)
+		values(#{usuarioId},#{nombres},#{apellidoPaterno},#{apellidoMaterno},#{username},#{email},#{password},true,'USU');
+	</insert>
+ 
+ 
+	<update id="actualizarNombreServer" statementType="CALLABLE"
+		parameterType="Usuario">
+		update usuarios
+		set nombreServer=#{nombreServer}
+		where
+		usuarioId =#{usuarioId};
+	</update>
+	<update id="actualizarNombreServerFondo"
+		statementType="CALLABLE" parameterType="Usuario">
+		update usuarios
+		set
+		nombreServerFondo=#{nombreServerFondo}
+		where
+		usuarioId =#{usuarioId};
+	</update>
+	<update id="actualizarUsuario"
+		statementType="CALLABLE" parameterType="Usuario">
+		update usuarios
+		set
+		nombres=#{nombres},
+		apellidoPaterno=#{apellidoPaterno},
+		apellidoMaterno=#{apellidoMaterno},
+		direccionDomicilio=#{direccionDomicilio},
+		ndocumento=#{ndocumento},
+		celular=#{celular},
+		email=#{email}
+		
+		where
+		usuarioId =#{usuarioId};
+	</update>
+
+	<select id="getUsuarioPorUserName" statementType="CALLABLE"
+		resultMap="traerLogin">
+		Select * from usuarios
+		where username=#{param1} or
+		email=#{param1}
+		and activado=1;
+	</select>
+
+	<select id="getUsuarioPorId" statementType="CALLABLE"
+		parameterType="Integer" resultMap="traerLogin">
+		{CALL listarUsuarioPorId(#{param1})}
+	</select>
+
+	<select id="getUsuarioPorUserName2" statementType="CALLABLE"
+		resultMap="traerLogin">
+		Select top 1 * from usuarios
+		where username like
+		'%#{param1}%' or email=#{param1}
+		and activado=1;
+	</select>
+
+	<resultMap id="traerLogin" type="Usuario">
+		<id column="usuarioId" property="usuarioId" />
+		<result column="nombres" property="nombres" />
+		<result column="direccionDomicilio"
+			property="direccionDomicilio" />
+		<result column="ndocumento" property="ndocumento" />
+		<result column="celular" property="celular" />
+		<result column="email" property="email" />
+		<result column="username" property="username" />
+		<result column="password" property="password" />
+		<result column="activado" property="activado" />
+		<result column="cuentaExpirada" property="cuentaExpirada" />
+		<result column="contrasenaExpirada"
+			property="contrasenaExpirada" />
+		<result column="cuentaBloqueada" property="cuentaBloqueada" />
+		<result column="perfil" property="perfil" />
+		<result column="nombreServer" property="nombreServer" />
+		<result column="nombreServerFondo" property="nombreServerFondo" />
+		<result column="apellidoPaterno" property="apellidoPaterno" />
+		<result column="apellidoMaterno" property="apellidoMaterno" />
+	</resultMap>
+
+
+</mapper>

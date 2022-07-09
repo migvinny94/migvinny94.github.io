@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.systems.shop.persistence.TipoMapper">
+
+	<select id="listarTipoPorCategoria" statementType="CALLABLE"
+		resultMap="listTipoPorCategoria" parameterType="Integer">
+		Select * from tipo where idCategoria=#{param1};
+	</select>
+	
+	<resultMap id="listTipoPorCategoria" type="Tipo">
+		<id column="idTipo" property="idTipo" />
+		<result column="nombreTipo" property="nombreTipo" />
+		<result column="idCategoria" property="categoria.idCategoria" />
+	</resultMap>
+
+
+</mapper>

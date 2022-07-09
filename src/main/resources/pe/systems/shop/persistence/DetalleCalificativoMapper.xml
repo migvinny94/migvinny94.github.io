@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.systems.shop.persistence.DetalleCalificativoMapper">
+
+
+<insert id="registrarCalificativo" statementType="CALLABLE"
+		parameterType="DetalleCalificativo">
+		<selectKey keyProperty="idDetalle" resultType="int"
+			order="BEFORE" statementType="PREPARED">
+			select ifnull(MAX(idDetalle),1000000)+1
+			from
+			detalleCalificativo
+		</selectKey>
+		insert into
+		detalleCalificativo(idDetalle,idProducto,idUsuario,estado)
+		values(#{idDetalle},#{idProducto},#{idUsuario},1);
+	</insert>
+ 
+ 
+ 	<update id="actualizarCalificativo" statementType="CALLABLE"
+		parameterType="DetalleCalificativo">
+		 
+		 update detalleCalificativo
+		 set estado=#{estado}
+		 where idDetalle=#{idDetalle};
+	</update>
+ 	
+	<select id="listarCalificativos" statementType="CALLABLE"
+		resultMap="listCalificativo" parameterType="INTEGER">
+		{CALL listarCalificativos(#{param1})};
+	</select>
+	<select id="listarDetalleCalificativoId" statementType="CALLABLE"
+		resultMap="listCalificativo" parameterType="INTEGER">
+		select * from detalleCalificativo where idProducto =#{param1} and idUsuario=#{param2};
+	</select>
+	
+	<select id="listarDetalleCalificativoIdEmpty" statementType="CALLABLE"
+		resultMap="listCalificativo" parameterType="INTEGER">
+		select * from detalleCalificativo where idProducto =#{param1} and idUsuario=#{param2};
+	</select>
+	
+	<select id="listarDetalleCalificativo" statementType="CALLABLE"
+		resultMap="listCalificativo" parameterType="INTEGER">
+		select * from detalleCalificativo where idProducto =#{param1};
+	</select>
+	
+	<resultMap id="listCalificativo" type="DetalleCalificativo">
+		<id column="idDetalle" property="idDetalle" />
+		<result column="idProducto" property="idProducto" />
+		<result column="idUsuario" property="idUsuario" />
+		<result column="estado" property="estado" />
+		 <result column="nombresUsuario" property="nombresUsuario" />
+	</resultMap>
+
+
+</mapper>

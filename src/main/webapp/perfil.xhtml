@@ -1,0 +1,138 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+
+<ui:composition template="/layouts/template.xhtml">
+	<ui:define name="content">
+
+
+<h:form id="formPerfilUsu" rendered="#{request.userPrincipal.principal.perfil.equals('USU') or (request.userPrincipal.principal.perfil.equals('ADM') and usuarioBean.usuarioId!=request.userPrincipal.principal.usuarioId)}">
+		<div class="profile-buyer segments-page">
+		<div class="ui container">
+			<div class="pages-title">
+				<h3>PERFIL</h3>
+			</div>
+			<div class="profile-banner"
+					style="background-size: 100% !important; background: linear-gradient(rgba(243, 150, 243, 0.25), rgba(33, 150, 243, 0.25)), url('../photosfondos/#{usuarioBean.getFileNameFondos(usuarioBean.usuario.usuarioId)}') no-repeat;">
+					
+					<img src="../photos/#{usuarioBean.getFileName(usuarioBean.usuario.usuarioId)}" alt=""/>
+					<h4>#{usuarioBean.usuario.nombres}
+							#{usuarioBean.usuario.apellidoPaterno}</h4>
+						<p>Perú</p>
+			</div>
+			<div class="ui menu">
+				<a href="" class="item active"><i class="fa fa-comment"></i>Comentarios</a>
+			</div>
+		</div>
+	</div>
+</h:form>
+
+		<div class="profile-seller segments-page" >
+			<div class="ui container">
+				<h:form id="formPerfil" rendered="#{(request.userPrincipal.principal.perfil.equals('ADM') and usuarioBean.usuarioId==request.userPrincipal.principal.usuarioId)}">
+					<div class="pages-title">
+						<h3>PERFIL DEL VENDEDOR</h3>
+					</div>
+					<div class="profile-banner"
+						style="background-size: 100% !important; background: linear-gradient(rgba(243, 150, 243, 0.25), rgba(33, 150, 243, 0.25)), url('../photosfondos/#{usuarioBean.getFileNameFondos(usuarioBean.usuario.usuarioId)}') no-repeat;">
+
+						<img
+							src="../photos/#{usuarioBean.getFileName(usuarioBean.usuario.usuarioId)}"
+							alt="" />
+						<h4>#{usuarioBean.usuario.nombres}
+							#{usuarioBean.usuario.apellidoPaterno}</h4>
+						<p>Perú</p>
+					</div>
+					<div class="ui menu">
+						<a href="" class="item active center aligned" data-tab="product">Productos</a>
+						<a href="" class="item center-tab" data-tab="discussion">Discusiones</a>
+						<a href="" class="item">Comentarios</a>
+					</div>
+					<div class="ui tab active product" data-tab="product">
+						<div class="ui grid">
+							<ui:repeat var="p" value="#{usuarioBean.listProductos}">
+								<div class="eight wide column pl">
+									<div class="content">
+										<img
+											src="#{request.contextPath}/photosproductos/#{productoBean.getFileName(p.fotoTop)}"
+											alt="" />
+
+										<table style="width: 100%">
+											<tr>
+												<th colspan="2" style="text-align:left">
+												<a href="">
+												<p>#{p.tituloProducto}</p></a>
+												</th>
+											</tr>
+											<tr>
+												<td><p:outputLabel value="#{p.precio}">
+										<f:convertNumber type="currency" currencySymbol="S/. " />
+										<f:view locale="es_PE" />
+									</p:outputLabel></td>
+												<td style="text-align:right">
+												
+										<p:commandLink rendered="#{p.usuarioPropietario.usuarioId==request.userPrincipal.principal.usuarioId}"
+											style="text-decoration:none !important;font-weight:bold;color:white !important"
+											styleClass="button" value="Editar"
+											action="pretty:editarproducto">
+											<f:setPropertyActionListener value="#{p.idProducto}"
+												target="#{productoBean.productoId}" />
+										</p:commandLink></td>
+										
+										
+										
+										<td style="text-align:right">
+								<p:commandLink styleClass="button" rendered="#{p.estadoProducto==1}"
+							style="text-decoration:none !important;font-weight:bold;color:white !important;background-color:red !important"
+							value="Dar de Baja" action="#{productoBean.eliminarProducto2()}" update=":formPerfil, growl" >
+							<f:setPropertyActionListener
+								value="#{p.idProducto}"
+								target="#{productoBean.productoId}" /> </p:commandLink>
+								
+							<p:commandLink styleClass="button" rendered="#{p.estadoProducto==0}"
+							style="text-decoration:none !important;font-weight:bold;color:white !important;background-color:green !important"
+							value="Dar de Alta" action="#{productoBean.activarProducto()}" update=":formPerfil, growl" >
+							<f:setPropertyActionListener
+								value="#{p.idProducto}"
+								target="#{productoBean.productoId}" />
+
+						</p:commandLink> </td>
+											</tr>
+										</table>
+										
+										
+
+									</div>
+								</div>
+							</ui:repeat>
+						</div>
+						<div class="pagination">
+							<ul>
+								<li class="active">1</li>
+								<li><a href="">2</a></li>
+								<li><a href="">3</a></li>
+								<li><a href="">4</a></li>
+								<li><a href="">5</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="ui tab" data-tab="discussion">
+						<div class="comment-people">
+							 
+							 
+						</div>
+					</div>
+				</h:form>
+			</div>
+		</div>
+
+
+
+
+
+	</ui:define>
+</ui:composition>
+</html>

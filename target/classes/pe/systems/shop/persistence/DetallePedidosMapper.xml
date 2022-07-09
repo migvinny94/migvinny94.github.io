@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="pe.systems.shop.persistence.DetallePedidosMapper">
+
+
+	<insert id="registrarDetallePedido" statementType="CALLABLE"
+		parameterType="DetallePedidos">
+		<selectKey keyProperty="idDetallePedido" resultType="int"
+			order="BEFORE" statementType="PREPARED">
+			select
+			ifnull(MAX(idDetallePedido),10000000)+1
+			from
+			detallePedidos
+		</selectKey>
+		insert into
+		detallePedidos(idDetallePedido,idPedido,idProducto,cantidad,importe,usuarioComprador,estadoDetallePedido,precioProducto,nombreProducto)
+		values(#{idDetallePedido},#{pedidos.idPedido},#{producto.idProducto},1,1*#{precioProducto},#{usuarioComprador},0,#{precioProducto},#{nombreProducto});
+	</insert>
+
+<select id="actualizarCantidad" statementType="CALLABLE"
+		  parameterType="INTEGER">
+		update detallePedidos
+		set cantidad =#{param1},importe=precioProducto * #{param1}
+where idDetallePedido=#{param2};
+	</select>
+
+<update id="asociarPedido" statementType="CALLABLE"
+		  parameterType="INTEGER">
+		update detallePedidos
+			set idPedido =#{param1} , estadoDetallePedido=1
+		where estadoDetallePedido=0 and usuarioComprador=#{param2};
+	</update>
+
+	<select id="listarDetallePedidos" statementType="CALLABLE"
+		resultMap="listDetalle" parameterType="INTEGER">
+		select p.*,(select idFotoProducto from fotosProducto where idProducto=p.idProducto Limit 1 ) idFoto
+		 from detallePedidos p
+		where p.usuarioComprador =#{param1} and p.estadoDetallePedido=0;
+	</select>
+	
+	
+	<select id="listarDetallePedidosPorPedido" statementType="CALLABLE"
+		resultMap="listDetalle" parameterType="INTEGER">
+		select p.*,(select idFotoProducto from fotosProducto where idProducto=p.idProducto Limit 1 ) idFoto
+		 from detallePedidos p
+		where p.idPedido=#{param};
+	</select>
+	
+	
+	<delete id="eliminarDetallePedido" statementType="CALLABLE"
+		  parameterType="INTEGER">
+		delete from detallePedidos where idDetallePedido=#{param1};
+	</delete>
+
+
+	<resultMap id="listDetalle" type="DetallePedidos">
+		<id column="idDetallePedido" property="idDetallePedido" />
+		<result column="idProducto" property="producto.idProducto" />
+		<result column="idPedido" property="pedidos.idPedido" />
+		<result column="cantidad" property="cantidad" />
+		<result column="importe" property="importe" />
+		
+		<result column="precioProducto" property="precioProducto" />
+		<result column="nombreProducto" property="nombreProducto" />
+		
+		<result column="idFoto" property="idFoto" />
+		<result column="usuarioComprador" property="usuarioComprador" />
+		<result column="estadoDetallePedido"
+			property="estadoDetallePedido" />
+	</resultMap>
+
+
+</mapper>

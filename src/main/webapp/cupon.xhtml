@@ -1,0 +1,74 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+
+<ui:composition template="/layouts/template.xhtml">
+	<ui:define name="content">
+
+		<h:form id="formCupon">
+			<!-- settings -->
+			<div class="settings segments-page">
+				<div class="ui container">
+					<div class="pages-title">
+				<p></p>
+						<h3>Nuevo Cupon</h3>
+					</div>
+					<div class="ui form">
+						<div class="field">
+							<label>Nombre</label> 
+							<p:inputText value="#{productoBean.cupon.nombreCupon}" />
+						</div>
+						<div class="field">
+							<label>Descuento</label> 
+							<p:inputText value="#{productoBean.cupon.descuento}" />
+						</div>
+											 
+						<div class="field">
+							<label>Cantidad Maxima</label> 
+							<p:inputText value="#{productoBean.cupon.cantidadMax}" />
+						</div>
+						
+						<p:commandLink styleClass="button" update="formCupon, growl" 	style="text-decoration:none !important;font-weight:bold;color:white !important" value="Guardar" action="#{productoBean.registrarCupon()}"/>
+					</div>
+				</div>
+			</div>
+			
+			<p/>
+			
+			 <p:dataTable id="tablaCupon" var="c" value="#{productoBean.listarCupon}" >
+			 
+            <p:column headerText="Nombre Cupon">
+                <h:outputText value="#{c.nombreCupon}" />
+            </p:column>
+
+            <p:column headerText="Descuento">
+                <h:outputText value="#{c.descuento}" />
+            </p:column>
+
+            <p:column headerText="Canjeado">
+                <h:outputText value="#{c.usado}" />
+            </p:column>
+            
+    	  <p:column headerText="Cantidad Maxima">
+                <h:outputText value="#{c.cantidadMax}" />
+            </p:column>
+
+
+            <p:column style="width:3rem;text-align: center">
+                <p:commandButton update=":formCupon" style="color:white !important" action="#{productoBean.verCupon()}"
+                                 icon="fa fa-search" title="Editar">
+                    <f:setPropertyActionListener value="#{c}"
+                                                 target="#{productoBean.cupon}"/>
+                </p:commandButton>
+            </p:column>
+        </p:dataTable>
+			
+		</h:form>
+	 
+		
+	</ui:define>
+</ui:composition>
+</html>

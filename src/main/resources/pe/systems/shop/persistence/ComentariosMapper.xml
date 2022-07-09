@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.systems.shop.persistence.ComentariosMapper">
+
+
+<insert id="registrarComentario" statementType="CALLABLE"
+		parameterType="Comentarios">
+		<selectKey keyProperty="idComentario" resultType="int"
+			order="BEFORE" statementType="PREPARED">
+			select ifnull(MAX(idComentario),1000000)+1
+			from
+			comentarios
+		</selectKey>
+		insert into
+		comentarios(idComentario,mensaje,estadoRespuesta,usuarioComento,fechaComentario,idProducto)
+		values(#{idComentario},#{mensaje},0,#{usuarioComento.usuarioId},now(),#{producto.idProducto});
+	</insert>
+ 
+ 
+ <update id="actualizarComentario" statementType="CALLABLE"
+		parameterType="Comentarios">
+		 
+		 update comentarios
+		 set estadoRespuesta=1,
+		 	 mensajeRespuesta=#{mensajeRespuesta},
+		 	 usuarioRespuesta=#{usuarioRespuesta.usuarioId},
+		 	 fechaRespuesta=now()
+		 where idComentario=#{idComentario};
+	</update>
+ 	
+	<select id="listarComentarioPorProducto" statementType="CALLABLE"
+		resultMap="listComentario" parameterType="INTEGER">
+	{CALL listarComentariosPorProducto(#{param1})};
+	</select>
+	
+	<resultMap id="listComentario" type="Comentarios">
+		<id column="idComentario" property="idComentario" />
+		<result column="mensaje" property="mensaje" />
+		<result column="mensajeRespuesta" property="mensajeRespuesta" />
+		<result column="estadoRespuesta" property="estadoRespuesta" />
+		<result column="usuarioComento" property="usuarioComento.usuarioId" />
+		<result column="usuarioRespuesta" property="usuarioRespuesta.usuarioId" />
+		<result column="fechaComentario" property="fechaComentario" />
+		<result column="fechaRespuesta" property="fechaRespuesta" />
+		<result column="idProducto" property="producto.idProducto"/>
+		<result column="nombresComento" property="nombresComento"/>
+		<result column="nombresRespuesta" property="nombresRespuesta"/>
+	</resultMap>
+
+
+</mapper>

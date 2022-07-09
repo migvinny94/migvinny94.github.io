@@ -1,0 +1,170 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+
+<ui:composition template="/layouts/template.xhtml">
+	<ui:define name="content">
+
+		<h:form id="formSetting">
+			<!-- settings -->
+			<div class="settings segments-page">
+				<div class="ui container">
+					<div class="pages-title">
+						<h3>Configuracion</h3>
+					</div>
+					<div class="ui form">
+						<h:panelGrid columns="2"  >
+							<span>Foto Perfil (80px X 80px)</span>
+							<p:fileUpload previewWidth="40"
+								fileUploadListener="#{usuarioBean.cargarFotoPerfil}"
+								mode="advanced" auto="true" label="Foto Perfil"
+								invalidFileMessage="Archivo inválido."
+								allowTypes="/(\.|\/)(jpe?g|png)$/" update="nombrePer,opBtnPerfil" />
+							<p:outputLabel id="nombrePer" style="color:blue; font-weight:bold"
+								value="#{usuarioBean.nombreAdjuntoUsuario}" />
+
+							<p:panel style="border:none !important" id="opBtnPerfil">
+								<p:commandButton value="Confirmar Perfil"
+									rendered="#{usuarioBean.nombreAdjuntoUsuario!=null}"
+									action="#{usuarioBean.saveImagePerfil()}"
+									update=":formLeft:pag1, nombrePer,opBtnPerfil"
+									styleClass="GreenButton" />
+
+							</p:panel>
+
+							<span>Foto Fondo (360px X 200px)</span>
+							<p:fileUpload previewWidth="40"
+								fileUploadListener="#{usuarioBean.cargarFotoPortada}"
+								mode="advanced" auto="true" label="Foto Portada"
+								invalidFileMessage="Archivo inválido."
+								allowTypes="/(\.|\/)(jpe?g|png)$/" update="nombrePor,opBtnPortada" />
+							<p:outputLabel id="nombrePor" style="color:blue; font-weight:bold"
+								value="#{usuarioBean.nombreAdjuntoFondo}" />
+
+							<p:panel style="border:none !important" id="opBtnPortada">
+								<p:commandButton value="Confirmar Portada"
+									rendered="#{usuarioBean.nombreAdjuntoFondo!=null}"
+									action="#{usuarioBean.saveImageFondo()}"
+									update=":formLeft:pag1, nombrePor,opBtnPortada"
+									styleClass="GreenButton" />
+
+							</p:panel>
+							
+ 
+						</h:panelGrid>
+						<div class="field">
+							<label>Nombres</label> <p:inputText type="text" value="#{usuarioBean.usuario.nombres}" />
+						</div>
+						<div class="field">
+							<label>Apellido Paterno</label> <p:inputText type="text" value="#{usuarioBean.usuario.apellidoPaterno}" />
+						</div>
+						<div class="field">
+							<label>Apellido Materno</label> <p:inputText type="text" value="#{usuarioBean.usuario.apellidoMaterno}" />
+						</div>
+						<div class="field">
+							<label>Email</label> <p:inputText type="text" value="#{usuarioBean.usuario.email}" />
+						</div>
+						<div class="field">
+							<label>Nombre Usuario</label> <p:inputText type="text" value="#{usuarioBean.usuario.username}" />
+						</div>
+						
+						<div class="field">
+							<label>Dirección</label> <p:inputText type="text" value="#{usuarioBean.usuario.direccionDomicilio}" />
+						</div>
+						<div class="field">
+							<label>Numero Documento</label> <p:inputText type="text" value="#{usuarioBean.usuario.ndocumento}" />
+						</div>
+						<div class="field">
+							<label>Celular</label> <p:inputText type="text" value="#{usuarioBean.usuario.celular}" />
+						</div>
+						<p:commandLink action="#{usuarioBean.actualizarUsuario()}"  update=":formSetting, growl"
+							style="color:white !important;text-decoration:none !important;font-weight:bold !important"
+							styleClass="button">
+							<i class="fa fa-send"></i>Guardar
+						</p:commandLink>
+						
+					</div>
+				</div>
+			</div>
+		</h:form>
+		<!-- end settings -->
+
+
+		<p:dialog id="profilePhotoDialog" widgetVar="profilePhotoDialog"
+			header="Seleccionar Foto" closeOnEscape="true" 
+			resizable="false" position="center" responsive="true">
+			<h:form id="profilePhotoForm">
+				<p:fileUpload label="Subir"
+					fileUploadListener="#{usuarioBean.handleFileUploadFoto}"
+					auto="true" update="cropPanel2" mode="advanced"
+					dragDropSupport="false" sizeLimit="4194304" fileLimit="1"
+					allowTypes="/(\.|\/)(jpg|jpeg|png)$/" />
+
+				<h:panelGroup id="cropPanel2" columns="1"
+					style="border:none !important">
+					<div
+						style="border: 1px solid #e5e5e5; width: 250px; height: 300px; overflow: auto; padding: 10px;">
+						<p:spacer width="3px" />
+						<p:imageCropper  value="#{usuarioBean.croppedImage}"
+							image="/temp/#{usuarioBean.newImage}"
+							initialCoords="0, 0, 100, 100" minSize="60, 60" aspectRatio="1.0" />
+						<p:spacer width="3px" />
+					</div>
+					<p />
+					<p:panel
+						style="border:none !important; text-align:center !important">
+						<p:commandButton value="Actualizar"
+							action="#{usuarioBean.saveImagePerfil()}"
+							update=":formLeft:pag1"
+							oncomplete="PF('profilePhotoDialog').hide();"
+							disabled="#{usuarioBean.newImage==null}" styleClass="GreenButton" />
+						<p:spacer width="10px" />
+						<p:commandButton value="Cerrar"
+							action="#{usuarioBean.nuevaImagen()}"
+							onclick="PF('profilePhotoDialog').hide();" type="button"
+							styleClass="RedButton" />
+					</p:panel>
+				</h:panelGroup>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog id="profilePortadaDialog" widgetVar="profilePortadaDialog"
+			header="Seleccionar Foto" closeOnEscape="true"  
+			resizable="false" position="center" responsive="true">
+			<h:form id="profilePortadaForm">
+
+				<p:fileUpload
+					fileUploadListener="#{usuarioBean.handleFileUploadPortada}"
+					auto="true" update="cropPanel3" mode="advanced"
+					dragDropSupport="false" sizeLimit="4194304" fileLimit="1"
+					allowTypes="/(\.|\/)(jpg|jpeg|png)$/" />
+
+				<h:panelGroup id="cropPanel3" style="border:none !important">
+					<div
+						style="border: 1px solid #e5e5e5; width: 250px; height: 300px; overflow: auto; padding: 10px;">
+						<p:imageCropper value="#{usuarioBean.croppedImage}"
+							image="/temp/#{usuarioBean.newImage}"
+							initialCoords="0, 0,250, 250" minSize="30, 30" aspectRatio="1.8" />
+					</div>
+					<p />
+					<p:panel style="border:none !important; text-align:center">
+						<p:commandButton value="Actualizar"
+							action="#{usuarioBean.saveImageFondo()}"
+							update=":formLeft:pag1"
+							oncomplete="PF('profilePortadaDialog').hide();"
+							disabled="#{usuarioBean.newImage==null}" styleClass="GreenButton" />
+						<p:spacer width="10px" />
+						<p:commandButton value="Cerrar"
+							action="#{usuarioBean.nuevaImagen()}"
+							onclick="PF('profilePortadaDialog').hide();" type="button"
+							styleClass="RedButton" />
+					</p:panel>
+				</h:panelGroup>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+</html>

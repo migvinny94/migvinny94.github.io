@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.systems.shop.persistence.ProductoMapper">
+
+	<insert id="registrarProducto" statementType="CALLABLE"
+		parameterType="Producto">
+		<selectKey keyProperty="idProducto" resultType="int"
+			order="BEFORE" statementType="PREPARED">
+			select ifnull(MAX(idProducto),1000000)+1
+			from
+			productos
+		</selectKey>
+		insert into
+		productos(idProducto,nombreProducto,tituloProducto,descripcion,idTipo,usuarioPropietario,idCategoria,precio,estadoProducto)
+		values(#{idProducto},#{nombreProducto},#{tituloProducto},#{descripcion},#{tipo.idTipo},#{usuarioPropietario.usuarioId},#{categoria.idCategoria},#{precio},1);
+	</insert>
+
+	<update id="actualizarProducto" statementType="CALLABLE"
+		parameterType="Producto">
+		update productos
+		set nombreProducto=#{nombreProducto},
+		tituloProducto=#{tituloProducto},
+		descripcion=#{descripcion},
+		idTipo=#{tipo.idTipo},
+		idCategoria=#{categoria.idCategoria},
+		precio=#{precio}
+		where idProducto=#{idProducto};
+
+	</update>
+
+
+
+	<update id="desactivarProducto" statementType="CALLABLE"
+		parameterType="Producto">
+		update productos
+		set estadoProducto=0
+		
+		where idProducto=#{idProducto};
+
+	</update>
+	
+		<update id="activarProducto" statementType="CALLABLE"
+		parameterType="Producto">
+		update productos
+		set estadoProducto=1
+		
+		where idProducto=#{idProducto};
+
+	</update>
+	
+	
+		<select id="actualizarLikes" statementType="CALLABLE">
+		{CALL actualizarLikes()};
+	</select>
+	
+	<select id="listarTopInicioLikeProducto" statementType="CALLABLE"
+		resultMap="listProducto">
+		{CALL listarTopInicioLikeProducto()};
+	</select>
+
+	<select id="listarTopInicioProducto" statementType="CALLABLE"
+		resultMap="listProducto">
+		{CALL listarTopInicioProducto()};
+	</select>
+
+	<select id="listarProductos" statementType="CALLABLE"
+		resultMap="listProducto">
+		{CALL listarProductoTotal()};
+	</select>
+
+	<select id="listarProductoPorUsuario" statementType="CALLABLE"
+		resultMap="listProducto" parameterType="Integer">
+		{CALL
+		listarProductoPorPropietario(#{param1})};
+	</select>
+
+
+	<select id="listarProductoPoNombre"
+		statementType="CALLABLE" resultMap="listProducto"
+		parameterType="String">
+		{CALL buscarProductoPorNombre(#{param1})};
+	</select>
+	
+
+	<select id="listarProductoPorCategoriaYEventoTop"
+		statementType="CALLABLE" resultMap="listProducto"
+		parameterType="Integer">
+		{CALL listarProductoPorCategoriaYEventoTop(#{param1})};
+	</select>
+	<select id="listarProductoPorCategoriaYEventoPrecioMenor"
+		statementType="CALLABLE" resultMap="listProducto"
+		parameterType="Integer">
+		{CALL
+		listarProductoPorCategoriaYEventoPrecioMenor(#{param1})};
+	</select>
+	<select id="listarProductoPorCategoriaYEventoPrecioMayor"
+		statementType="CALLABLE" resultMap="listProducto"
+		parameterType="Integer">
+		{CALL
+		listarProductoPorCategoriaYEventoPrecioMayor(#{param1})};
+	</select>
+	<select id="listarProductoPorCategoriaYEventoPopular"
+		statementType="CALLABLE" resultMap="listProducto"
+		parameterType="Integer">
+		{CALL
+		listarProductoPorCategoriaYEventoPopular(#{param1})};
+	</select>
+	<select id="listarProductoPorCategoriaYEventoComprado"
+		statementType="CALLABLE" resultMap="listProducto"
+		parameterType="Integer">
+		{CALL
+		listarProductoPorCategoriaYEventoComprado(#{param1})};
+	</select>
+<!-- /////////////////////////////////////////////////////////////////////// -->
+
+	<select id="listarProductoPorId" statementType="CALLABLE"
+		resultMap="listProducto">
+		{CALL listarProductoPorId(#{param1})};
+	</select>
+	
+	
+	<select id="listarProductoPorCategoria" statementType="CALLABLE"
+		resultMap="listProducto">
+		Select p.* , (select idFotoProducto from fotosProducto where idProducto=p.idProducto Limit 1 ) fotoTop from productos p  where  p.idCategoria=#{param1} and p.estadoProducto=1;
+	</select>
+
+	<resultMap id="listProducto" type="Producto">
+		<id column="idProducto" property="idProducto" />
+		<result column="nombreProducto" property="nombreProducto" />
+		<result column="tituloProducto" property="tituloProducto" />
+		<result column="descripcion" property="descripcion" />
+		<result column="foto1" property="foto1" />
+		<result column="foto2" property="foto2" />
+		<result column="foto3" property="foto3" />
+		<result column="tipoModelo" property="tipoModelo" />
+		<result column="rating" property="rating" />
+		<result column="fotoTop" property="fotoTop" />
+		<result column="usuarioPropietario"
+			property="usuarioPropietario.usuarioId" />
+		<result column="idCategoria" property="categoria.idCategoria" />
+		<result column="idTipo" property="tipo.idTipo" />
+		<result column="estadoProducto" property="estadoProducto" />
+		<result column="precio" property="precio" />
+		<result column="nombreFoto" property="nombreFoto" />
+		<result column="meGusta" property="meGusta"/>
+	</resultMap>
+
+
+</mapper>

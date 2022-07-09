@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.systems.shop.persistence.CuponMapper">
+
+
+<insert id="registrarCupon" statementType="CALLABLE"
+		parameterType="Cupon">
+		<selectKey keyProperty="idCupon" resultType="int"
+			order="BEFORE" statementType="PREPARED">
+			select ifnull(MAX(idCupon),1000000)+1
+			from
+			cupon
+		</selectKey>
+		insert into
+		cupon(idCupon,nombreCupon,descuento,cantidadMax,usado)
+		values(#{idCupon},#{nombreCupon},-#{descuento},#{cantidadMax},0);
+	</insert>
+	
+	<update id="actualizarUsado" statementType="CALLABLE"
+		parameterType="Integer">
+		update cupon
+		set usado=usado + 1
+		where idCupon=#{idCupon};
+	</update>
+	
+ 	<update id="actualizarCupon" statementType="CALLABLE"
+		parameterType="Cupon">
+		update cupon
+		set nombreCupon=#{nombreCupon},
+		descuento=-#{descuento},
+		cantidadMax=#{cantidadMax}
+		where idCupon=#{idCupon};
+	</update>
+ 
+	<select id="listarCupon" statementType="CALLABLE" resultMap="listarCupones" >
+		Select idCupon,nombreCupon,descuento,ifnull(usado,0)usado,cantidadMax from cupon ;
+	</select>
+	
+	<select id="buscarCupon" statementType="CALLABLE"
+		resultMap="listarCupones" parameterType="String">
+	Select idCupon,nombreCupon,descuento,ifnull(usado,0)usado,cantidadMax from cupon where  nombreCupon=#{param} ;
+	</select>
+ <select id="buscarCuponId" statementType="CALLABLE"
+		resultMap="listarCupones" parameterType="Integer">
+		select * from cupon where idCupon=#{param} ;
+	</select>
+	
+	<resultMap id="listarCupones" type="Cupon">
+		<id column="idCupon" property="idCupon" />
+		<result column="nombreCupon" property="nombreCupon" />
+		<result column="descuento" property="descuento" />
+		<result column="cantidadMax" property="cantidadMax" />
+		<result column="usado" property="usado" />
+	</resultMap>
+
+
+</mapper>

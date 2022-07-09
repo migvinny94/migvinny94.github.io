@@ -1,0 +1,229 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+
+<ui:composition template="/layouts/template.xhtml">
+	<ui:define name="content">
+
+<h:form id="formCarrito2" rendered="#{productoBean.listDetalleTemp.size()==0}" style="text-align:center !important">
+
+<p:spacer height="100"/>
+<h1>CARRITO VACIO</h1>
+<img height="300"   src="#{request.contextPath}/resources/shop/images/carrito-de-compra.gif" alt="" class="logo"/>
+	
+<p/>
+	<p/>
+</h:form>
+		<h:form id="formCarrito" >
+			<p:outputPanel  id="carUpd" rendered="#{productoBean.listDetalleTemp.size()!=0}" styleClass="cart segments-page">
+				<div class="ui container">
+					<div class="pages-title">
+						<h3>Carrito</h3>
+					</div>
+					<p:panel id="viewCarrito" style="border:none !important"
+						styleClass="cart-product">
+						<ui:repeat var="p" value="#{productoBean.listDetalleTemp}">
+							<div class="ui grid">
+								<div class="six wide column pr">
+									<div class="content" style="text-align:center">
+										<img
+											src="#{request.contextPath}/photosproductos/#{productoBean.getFileName(p.idFoto)}"
+											alt="" />
+									</div>
+								</div>
+								<div class="eight wide column pr">
+									<div class="content">
+										<a style="color: black; font-weight: bold">#{p.nombreProducto}</a>
+									</div>
+								<br/>
+								<div class="six wide column pr">
+									<div class="content">
+										 Precio  :
+										<p:outputLabel value="#{p.precioProducto}">
+												<f:convertNumber type="currency" currencySymbol="S/. " />
+												<f:view locale="es_PE" />
+											</p:outputLabel>
+									</div>
+								</div>
+								 
+								<div class="six wide column pr">
+									<div class="content">
+										 Cantidad :
+										 
+											#{p.cantidad}
+											<p:commandLink update=":formEdit"
+												oncomplete="PF('dialogEdit').show();">
+												<i title="Editar" style="color: skyblue"
+													class="Fs13 fa fa-search"></i>
+												<f:setPropertyActionListener value="#{p}"
+													target="#{productoBean.detallePedidos}" />
+
+											</p:commandLink>
+										 
+									</div>
+								</div>
+								 
+								</div>
+								<div class="two wide column pl">
+									<div class="content remove">
+										<p:commandLink
+											update=":formCarrito:viewCarrito,:formCarrito:pPay, :formLeft2:pCarrito  growl"
+											action="#{productoBean.eliminarDetallePedido()}">
+											<i class="fa fa-remove" title="Borrar"></i>
+											<f:setPropertyActionListener value="#{p.idDetallePedido}"
+												target="#{productoBean.detallePedidos.idDetallePedido}" />
+										</p:commandLink>
+									</div>
+								</div>
+								
+							</div>
+						</ui:repeat>
+					</p:panel>
+
+					<p:panel id="pPay" style="border:none !important"
+						styleClass="total-pay">
+
+						<div class="ui grid">
+							<ui:repeat var="z" value="#{productoBean.listDetalleTemp}">
+								<div class="ten wide column pr">
+									<div class="content">
+										<p>
+											<p:outputLabel value="#{z.cantidad} x "
+												style="font-weight:bold !important;color:black" />
+											#{z.nombreProducto}
+										</p>
+									</div>
+								</div>
+								<div class="six wide column pl">
+									<div class="content">
+										<p>
+											<p:outputLabel value="#{z.importe}">
+												<f:convertNumber type="currency" currencySymbol="S/. " />
+												<f:view locale="es_PE" />
+											</p:outputLabel>
+										</p>
+									</div>
+								</div>
+							</ui:repeat>
+
+</div>
+						<div class="ten wide column pr">
+								<div class="content"> 
+									 <p:inputText value="#{productoBean.nomCupon}" placeholder="Aplicar Cupon" />
+									     <p:commandButton update=":formCarrito:ver,total growl" process="@form" style="color:white !important"
+									          action="#{productoBean.buscarCupon()}"
+                                 icon="fa fa-search" title="Buscar"> 
+              					  </p:commandButton>
+								</div>
+							</div>
+							
+							<p:outputPanel id="ver" styleClass="six wide column pl">
+								<div class="content">
+									<h5>
+										<p:outputLabel rendered="#{productoBean.cupon.cantidadMax!=productoBean.cupon.usado}" value="#{productoBean.cupon.descuento}">
+											<f:convertNumber type="currency" currencySymbol="S/. " />
+											<f:view locale="es_PE" />
+										</p:outputLabel>
+									</h5>
+								</div>
+							</p:outputPanel>
+							
+
+							<div class="ten wide column pr">
+								<div class="content">
+									<p style="font-weight:bold !important;color:black">Total :</p>
+								</div>
+							</div>
+							<p:outputPanel id="total" styleClass="six wide column pl"  >
+								<div class="content">
+									<h5>
+										<p:outputLabel rendered="#{productoBean.cupon.idCupon !=null}" value="${productoBean.totalCarrito}">
+											<f:convertNumber type="currency" currencySymbol="S/. " />
+											<f:view locale="es_PE" />
+										</p:outputLabel>
+									
+										<p:outputLabel rendered="#{productoBean.nomCupon ==null || productoBean.cupon ==null}"  value="${productoBean.getTotalAPagarSoles()}">
+											<f:convertNumber type="currency" currencySymbol="S/. " />
+											<f:view locale="es_PE" />
+										</p:outputLabel>
+									</h5>
+								</div>
+							</p:outputPanel>
+							
+							
+							
+						<div class="ten wide column pr">
+								<div class="content">
+									<p style="font-weight:bold !important;color:black">Medio de Pago :</p>
+								</div>
+							</div> 
+						<div id="ver" styleClass="six wide column pl">
+								<div class="content">
+							<h:selectOneMenu id="advanced2" title="Seleccione Medio de Pago"
+									value="#{productoBean.pedidos.medioPago}"
+									 
+									styleClass="form-control"  >
+									 
+												<f:selectItem itemLabel="EFECTIVO"
+										itemValue="E" />
+												<f:selectItem itemLabel="TARJETA"
+										itemValue="T" />
+										<f:selectItem itemLabel="TRANSFERENCIA"
+										itemValue="TX" />
+								</h:selectOneMenu>
+								</div>
+						 </div>
+						 
+						<br />
+						
+							
+						<p:commandLink action="#{productoBean.registrarPedido()}"  update=":formCarrito:carUpd, growl"
+							style="color:white !important;text-decoration:none !important;font-weight:bold !important"
+							styleClass="button">
+							<i class="fa fa-send"></i>Proceder con el Pedido
+						</p:commandLink>
+					</p:panel>
+
+				</div>
+			</p:outputPanel>
+		</h:form>
+
+		<p:dialog id="dialogEdit" widgetVar="dialogEdit" responsive="true"
+			position="center" closeOnEscape="true">
+			<h:form id="formEdit" style="width:220px !important" >
+				<h3>
+					<p style="white-space:pre-wrap" class="Fs14">#{productoBean.detallePedidos.nombreProducto}</p>
+				</h3>
+
+				<h:panelGrid columns="2">
+					<p:outputLabel styleClass="Fs11" value="Precio : " />
+					<p:outputLabel styleClass="Fs11"
+						value="#{productoBean.detallePedidos.precioProducto}" >
+						<f:convertNumber type="currency" currencySymbol="S/. " />
+											<f:view locale="es_PE" />
+									 
+					</p:outputLabel>
+
+					<p:outputLabel styleClass="Fs11" value="Cantidad : " />
+					
+					 
+					<p:spinner min="1" size="5"
+						value="#{productoBean.detallePedidos.cantidad}" />
+
+				</h:panelGrid>
+
+				<br />
+				<p:commandLink styleClass="button"
+					style="font-weight:bold !important;text-decoration:none !important;color:white !important"
+					update=":formCarrito:viewCarrito,:formCarrito:pPay"
+					action="#{productoBean.actualizarImporte()}" value="Guardar" />
+			</h:form>
+		</p:dialog>
+
+
+	</ui:define>
+</ui:composition>
+</html>

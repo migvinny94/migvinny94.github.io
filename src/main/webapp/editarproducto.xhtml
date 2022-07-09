@@ -1,0 +1,182 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+
+<ui:composition template="/layouts/template.xhtml">
+	<ui:define name="content">
+
+		<h:form id="formEditProducto">
+			<!-- settings -->
+			<div class="settings segments-page">
+				<div class="ui container">
+					<div class="pages-title">
+						<h3>Editar Producto</h3>
+					</div>
+					<div class="ui form">
+						<div class="field">
+							<label>Nombre</label>
+							<p:inputText value="#{productoBean.producto.nombreProducto}" />
+						</div>
+						<div class="field">
+							<label>Titulo</label>
+							<p:inputText value="#{productoBean.producto.tituloProducto}" />
+						</div>
+						<div class="field">
+							<label>Categoria</label>
+							<h:selectOneMenu id="advanced" title="Busque Correctamente"
+								value="#{productoBean.producto.categoria}"
+								converter="omnifaces.SelectItemsConverter"
+								styleClass="form-control">
+								<f:selectItem itemLabel="Selecione Categoria"
+									itemValue="#{null}" />
+								<f:selectItems value="#{productoBean.listarCategoria}" var="c"
+									itemLabel="#{c.nombreCategoria}" itemValue="#{c}" />
+								<p:ajax listener="#{productoBean.listarTipoPorCategoria()}"
+									update="advanced2" />
+							</h:selectOneMenu>
+						</div>
+						<div class="field">
+							<label>Tipo</label>
+							<h:selectOneMenu id="advanced2" title="Busque Correctamente"
+								value="#{productoBean.producto.tipo}"
+								converter="omnifaces.SelectItemsConverter"
+								styleClass="form-control">
+								<f:selectItem itemLabel="Selecione Tipo" itemValue="#{null}" />
+								<f:selectItems value="#{productoBean.listarTipo}" var="t"
+									itemLabel="#{t.nombreTipo}" itemValue="#{t}" />
+							</h:selectOneMenu>
+						</div>
+						<div class="field">
+							<label>Descripcion</label>
+							<p:inputTextarea value="#{productoBean.producto.descripcion}" />
+						</div>
+						<div class="field">
+							<label>Precio</label>
+							<p:inputText value="#{productoBean.producto.precio}" />
+						</div>
+						
+						<p />
+						<p:commandLink styleClass="button"
+							style="text-decoration:none !important;font-weight:bold;color:white !important"
+							value="Guardar Información" action="#{productoBean.actualizarProducto()}">
+							<f:setPropertyActionListener
+								value="#{productoBean.producto.idProducto}"
+								target="#{productoBean.productoId}" />
+
+						</p:commandLink>
+						
+								<p:commandLink styleClass="button"
+							style="text-decoration:none !important;font-weight:bold;color:white !important;background-color:red !important"
+							value="Dar de Baja" action="#{productoBean.eliminarProducto()}">
+							<f:setPropertyActionListener
+								value="#{productoBean.producto.idProducto}"
+								target="#{productoBean.productoId}" />
+
+						</p:commandLink>
+						
+						
+						
+						<p/>
+						<div class="field">
+							<h3><label>Fotos </label></h3>
+							<p />
+							
+							<p:fileUpload previewWidth="40"
+								fileUploadListener="#{productoBean.cargarArchivoProducto}"
+								mode="advanced" auto="true" label="Adjuntar "
+								invalidFileMessage="Archivo inválido."
+								allowTypes="/(\.|\/)(jpe?g|png)$/" update="nombrePro,opBotones" />
+							<p:outputLabel id="nombrePro" style="color:blue; font-weight:bold"
+								value="#{productoBean.nombreAdjuntoProducto}" />
+
+							<p:panelGrid style="border:none !important" columns="2" id="opBotones">
+
+
+								<p:commandButton value="Confirmar Imagen"
+									rendered="#{productoBean.nombreAdjuntoProducto!=null}"
+									action="#{productoBean.saveImageProducto()}"
+									update=":formEditProducto:listFoto"
+									styleClass="GreenButton" />
+
+							</p:panelGrid>
+
+
+						</div>
+					<p:panel id="listFoto">
+					
+				
+						<table style="width: 100%">
+							<ui:repeat var="f" value="#{productoBean.listarFotoProducto}">
+
+								<tr>
+									<td style="text-align: right"><p:commandLink
+											rendered="#{request.userPrincipal.principal.usuarioId==productoBean.producto.usuarioPropietario.usuarioId}"
+											update="formEditProducto" process="@form"
+											action="#{productoBean.eliminarFoto()}">
+											<i title="Eliminar" style="color: red" class="fa fa-trash"></i>
+											<f:setPropertyActionListener value="#{f.idFotoProducto}"
+												target="#{productoBean.idFotoProducto}" />
+										</p:commandLink></td>
+									<td style="text-align: left"><p:outputLabel id="id"
+											value="#{f.nombreFoto}" /></td>
+
+									<td style="text-align: left"><img
+										src="../photosproductos/#{productoBean.getFileName(f.idFotoProducto)}"
+										width="50" /></td>
+								</tr>
+							</ui:repeat>
+						</table>
+	</p:panel>
+
+
+						
+					</div>
+				</div>
+			</div>
+		</h:form>
+		<!-- end settings -->
+<!-- 		<p:dialog id="profilePhotoDialog" widgetVar="profilePhotoDialog" -->
+<!-- 			header="Seleccionar Foto" closeOnEscape="true" resizable="false" -->
+<!-- 			position="center" responsive="true"> -->
+<!-- 			<h:form id="profilePhotoForm"> -->
+<!-- 				<p:fileUpload label="Subir" -->
+<!-- 					fileUploadListener="#{productoBean.handleFileUploadFotoProducto}" -->
+<!-- 					auto="true" update="cropPanel2" mode="advanced" -->
+<!-- 					dragDropSupport="false" sizeLimit="4194304" fileLimit="1" -->
+<!-- 					allowTypes="/(\.|\/)(jpg|jpeg|png)$/" /> -->
+
+<!-- 				<h:panelGroup id="cropPanel2" columns="1" -->
+<!-- 					style="border:none !important"> -->
+<!-- 					<div -->
+<!-- 						style="border: 1px solid #e5e5e5; width: 250px; height: 300px; overflow: auto; padding: 10px;"> -->
+<!-- 						<p:spacer width="3px" /> -->
+<!-- 						<p:imageCropper value="#{productoBean.croppedImage}" -->
+<!-- 							image="/temp/#{productoBean.newImage}" -->
+<!-- 							initialCoords="0, 0, 200, 200" minSize="200, 200" -->
+<!-- 							aspectRatio="1.0" /> -->
+<!-- 						<p:spacer width="3px" /> -->
+<!-- 					</div> -->
+<!-- 					<p /> -->
+<!-- 					<p:panel -->
+<!-- 						style="border:none !important; text-align:center !important"> -->
+<!-- 						<p:commandButton value="Actualizar" -->
+<!-- 							action="#{productoBean.saveImageProducto()}" -->
+<!-- 							update=":formEditProducto" -->
+<!-- 							oncomplete="PF('profilePhotoDialog').hide();" -->
+<!-- 							disabled="#{productoBean.newImage==null}" -->
+<!-- 							styleClass="GreenButton" /> -->
+<!-- 						<p:spacer width="10px" /> -->
+<!-- 						<p:commandButton value="Cerrar" -->
+<!-- 							action="#{usuarioBean.nuevaImagen()}" type="button" -->
+<!-- 							onclick="PF('profilePhotoDialog').hide();" styleClass="RedButton" /> -->
+<!-- 					</p:panel> -->
+<!-- 				</h:panelGroup> -->
+<!-- 			</h:form> -->
+<!-- 		</p:dialog> -->
+
+	</ui:define>
+</ui:composition>
+</html>

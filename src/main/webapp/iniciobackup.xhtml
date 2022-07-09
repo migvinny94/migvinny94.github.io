@@ -1,0 +1,161 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+
+<ui:composition template="/layouts/template.xhtml">
+	<ui:define name="content">
+		<h:form id="formInicio">
+		
+			<div class="slider">
+				<div class="slider-show owl-carousel owl-theme">
+					<div class="slider-content">
+						<div class="mask2"></div>
+						<img src="#{request.contextPath}/resources/shop/images/portada.jpg" alt=""/>
+						<div class="caption text-center">
+							<h2>Welcome to Shopina</h2>
+							<p>The Best eCommerce</p>
+							<button class="button">Shop Now</button>
+						</div>
+					</div>
+					<ui:repeat var="p" value="#{productoBean.listarProductoTopInicio}">
+					<div class="slider-content">
+						<div class="mask2"></div>
+						<img src="./photosproductos/#{productoBean.getFileName(p.fotoTop)}" alt=""/>
+						<div class="caption">
+							<h2>#{p.nombreProducto}</h2>
+							<p>El mejor Producto</p>
+							
+								<p:commandLink  
+											style="text-decoration:none !important;font-weight:bold;color:white !important"
+											styleClass="button" value="Compra Ahora"
+											action="pretty:verproducto">
+											<f:setPropertyActionListener value="#{p.idProducto}"
+												target="#{productoBean.productoId}" />
+							
+						 </p:commandLink>
+						</div>
+					</div>
+					
+					</ui:repeat>
+					 
+				</div>
+			</div>
+			<!-- end slider -->
+
+		
+			<!-- categories -->
+			<section class="categories segments divider">
+				<div class="ui container">
+					<div class="section-title">
+						<h3>Categorias</h3>
+						<div class="line"></div>
+					</div>
+					<div class="ui grid">
+						<ui:repeat var="c" value="#{productoBean.listarCategoria}">
+						<div class="eight wide column pl">
+							<div class="content">
+								<a href=""> <i class="fa fa-#{c.nombreIcono}"></i>
+									<p>#{c.nombreCategoria}</p>
+								</a>
+							</div>
+						</div>
+						</ui:repeat>
+					 
+						<div class="sixteen wide column full">
+							<div class="link">
+								<a href="" class="link-color"  >See More <i
+									class="fa fa-angle-right"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- end categories -->
+
+			<!-- product -->
+			<section class="product segments divider">
+				<div class="ui container">
+					<div class="section-title">
+						<h3>Productos Nuevos</h3>
+						<div class="line"></div>
+					</div>
+					<div class="ui grid">
+						<ui:repeat var="p2" value="#{productoBean.listarProductoTopInicio}">
+						<div class="eight wide column pr">
+							<div class="content">
+								<img src="./photosproductos/#{productoBean.getFileName(p2.fotoTop)}" alt=""/>
+							 
+									<h:commandLink action="pretty:verproducto" styleClass="item"
+											process="@this">
+											<f:setPropertyActionListener value="#{p2.idProducto}"
+												target="#{productoBean.productoId}" />
+											 
+												#{p2.tituloProducto}
+			</h:commandLink>
+								
+								<h5>S/. #{p2.precio}</h5>
+							</div>
+						</div>
+						</ui:repeat>
+						  
+					</div>
+				</div>
+			</section>
+			<!-- end product -->
+
+			<!-- product -->
+			<section class="product segments">
+				<div class="ui container">
+					<div class="section-title">
+						<h3>Popular Product</h3>
+						<div class="line"></div>
+					</div>
+					<div class="ui grid">
+						<div class="eight wide column pr">
+							<div class="content">
+								<img src="#{request.contextPath}/resources/shop/images/product5.png" alt=""/><a href=""><p>Jacket
+										Modern for Men y Women</p></a>
+								<h5>$92</h5>
+							</div>
+						</div>
+						<div class="eight wide column pl">
+							<div class="content">
+								<img src="#{request.contextPath}/resources/shop/images/product1.png" alt=""/><a href=""><p>Watch
+										Modern for Men y Women</p></a>
+								<h5>$66</h5>
+							</div>
+						</div>
+						<div class="eight wide column pr">
+							<div class="content">
+								<img src="#{request.contextPath}/resources/shop/images/product4.png" alt=""/><a href=""><p>Monitor
+										24inch for Designer</p></a>
+								<h5>$90</h5>
+							</div>
+						</div>
+						<div class="eight wide column pl">
+							<div class="content">
+								<img src="#{request.contextPath}/resources/shop/images/product8.png" alt=""/><a href=""><p>Backpack
+										Treanding for Men</p></a>
+								<h5>$80</h5>
+							</div>
+						</div>
+						<div class="sixteen wide column full">
+							<div class="link">
+								<a href="" class="link-color">See More <i
+									class="fa fa-angle-right"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- end product -->
+		</h:form>
+
+
+
+	</ui:define>
+</ui:composition>
+</html>

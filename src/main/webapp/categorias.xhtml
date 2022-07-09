@@ -1,0 +1,99 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+
+<ui:composition template="/layouts/template.xhtml">
+	<ui:define name="content">
+
+		<h:form id="formCategoria">
+				<div class="categories-pages segments-page">
+		<div class="ui container">
+			<div class="pages-title">
+				<h3>Categorias</h3>
+			</div>
+			<div class="ui accordion">
+				<div class="title">
+					<span><i class="fa fa-female"></i>Moda</span><i class="fa fa-angle-down"></i>
+				</div>
+				<div class="content">
+					<ul>
+						<ui:repeat var="m" value="#{productoBean.listarTipoModa}">
+							<li><a href="">#{m.nombreTipo}</a></li>
+						</ui:repeat>
+					</ul>
+				</div>
+			</div>
+			<div class="ui accordion">
+				<div class="title">
+					<span><i class="fa fa-crosshairs"></i>Belleza</span><i class="fa fa-angle-down"></i>
+				</div>
+				<div class="content">
+					<ul>
+						<ui:repeat var="b" value="#{productoBean.listarTipoBelleza}">
+							<li><a href="">#{b.nombreTipo}</a></li>
+						</ui:repeat>
+					</ul>
+				</div>
+			</div>
+			<div class="ui accordion">
+				<div class="title">
+					<span><i class="fa fa-television"></i>Electronica</span><i class="fa fa-angle-down"></i>
+				</div>
+				<div class="content">
+					<ul>
+						<ui:repeat var="e" value="#{productoBean.listarTipoElectronica}">
+							<li><a href="">#{e.nombreTipo}</a></li>
+						</ui:repeat>
+					</ul>
+				</div>
+			</div>
+			<div class="ui accordion">
+				<div class="title">
+					<span><i class="fa fa-futbol-o"></i>Deporte</span><i class="fa fa-angle-down"></i>
+				</div>
+				<div class="content">
+					<ul>
+						<ui:repeat var="d" value="#{productoBean.listarTipoDeporte}">
+							<li><a href="">#{d.nombreTipo}</a></li>
+						</ui:repeat>
+					</ul>
+				</div>
+			</div>
+			<div class="ui accordion">
+				<div class="title">
+					<span><i class="fa fa-laptop"></i>Tecnologia</span><i class="fa fa-angle-down"></i>
+				</div>
+				<div class="content">
+					<ul>
+						<ui:repeat var="t" value="#{productoBean.listarTipoTecnologia}">
+							<li><a href="">#{t.nombreTipo}</a></li>
+						</ui:repeat>
+					</ul>
+				</div>
+			</div>
+			<div class="ui accordion">
+				<div class="title">
+					<span><i class="fa fa-diamond"></i>Otros</span><i class="fa fa-angle-down"></i>
+				</div>
+				<div class="content">
+					<ul>
+						<ui:repeat var="o" value="#{productoBean.listarTipoOtros}">
+							<li><a href="">#{o.nombreTipo}</a></li>
+						</ui:repeat>
+					</ul>
+				</div>
+			</div>
+			 
+		</div>
+	</div>
+			
+		</h:form>
+
+
+
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pretty-config
+	xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces">
+
+	<url-mapping id="404">
+		<pattern value="/404" />
+		<view-id value="/faces/404.xhtml" />
+	</url-mapping>
+	<url-mapping id="403">
+		<pattern value="/403" />
+		<view-id value="/faces/403.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="login">
+		<pattern value="/login" />
+		<view-id value="/faces/login.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="historia">
+		<pattern value="/historia" />
+		<view-id value="/faces/quienessomos.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="cupones">
+		<pattern value="/cupones" />
+		<view-id value="/faces/cupon.xhtml" />
+	</url-mapping>
+	
+		
+	<url-mapping id="categorias">
+		<pattern value="/categorias" />
+		<view-id value="/faces/categorias.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="inicio">
+		<pattern value="/inicio" />
+		<view-id value="/faces/inicio.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="nuevoproducto">
+		<pattern value="/nuevoproducto" />
+		<view-id value="/faces/nuevoproducto.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="productos">
+		<pattern value="/productos" />
+		<view-id value="/faces/productos.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="registro">
+		<pattern value="/registro" />
+		<view-id value="/faces/registro.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="vercarrito">
+		<pattern value="/ver-carrito" />
+		<view-id value="/faces/carro.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="perfil">
+		<pattern value="/perfil/#{usuarioBean.usuarioId}" />
+		<view-id value="/faces/perfil.xhtml" />
+		<action onPostback="false">#{usuarioBean.verPerfil()}</action>
+	</url-mapping> 
+	
+	<url-mapping id="editarproducto">
+		<pattern value="/editarproducto/#{productoBean.productoId}" />
+		<view-id value="/faces/editarproducto.xhtml" />
+		<action onPostback="false">#{productoBean.editarProducto()}</action>
+	</url-mapping> 
+	
+ 
+	
+	
+	<url-mapping id="verproducto">
+		<pattern value="/verproducto/#{productoBean.productoId}" />
+		<view-id value="/faces/verproducto.xhtml" />
+		<action onPostback="false">#{productoBean.verProducto()}</action>
+	</url-mapping> 
+	
+	
+	<url-mapping id="mispedidos">
+		<pattern value="/mis-pedidos" />
+		<view-id value="/faces/mispedidos.xhtml" />
+	</url-mapping>
+	
+	
+	<url-mapping id="configuracion">
+		<pattern value="/configuracion/#{usuarioBean.usuarioId}" />
+		<view-id value="/faces/configuracion.xhtml" />
+		<action onPostback="false">#{usuarioBean.verConfiguracion()}</action>
+	</url-mapping> 
+
+</pretty-config>

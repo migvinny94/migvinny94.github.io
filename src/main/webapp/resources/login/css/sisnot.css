@@ -1,0 +1,303 @@
+@font-face {
+    font-family: 'Droid Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Droid Sans'), local('DroidSans'), url("#{resource['fonts:DroidSans.woff']}") format("woff");
+}
+@font-face {
+    font-family: 'Droid Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Droid Sans Bold'), local('DroidSans-Bold'), url("#{resource['fonts:DroidSans-Bold.woff']}") format("woff");
+}
+html, body {
+    font-family: 'Droid Sans', Arial, sans-serif !important;
+    font-size: 12px !important;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+.ui-widget { 
+    font-family: 'Droid Sans', Arial, sans-serif !important;
+    font-size: 1em !important
+}
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { 
+    font-family: 'Droid Sans', Arial, sans-serif !important;
+    font-size: 1em !important; 
+}
+.cursiva {
+    font-style: italic;
+}
+.titulo {
+    font-size: 22px !important;
+}
+h1 {
+	font-size:24px!important;
+	font-weight:normal!important;
+	margin: 0!important;
+}
+small {
+	font-size: 12px !important;
+}
+.subtitulo {
+    font-size: 16px !important;
+}
+.etiqueta {
+    font-weight: bold!important;
+}
+.subindice {
+    font-size: 9px !important;
+}
+.centrado {
+    text-align: center
+}
+.derecha {
+    text-align: right !important;
+}
+.ancho-total {
+    width: 100% !important;
+}
+.ancho-total2 * {
+    width: 100% !important;
+} 
+.arriba {
+    vertical-align: top;
+}
+.revisar {
+    border: 1px solid #fad42e;
+    background: #fbec88 url("#{resource['primefaces-redmond:images/ui-bg_flat_55_fbec88_40x100.png']}") 50% 50% repeat-x;
+    color: #363636;
+}
+.seleccionar {
+    color: #363636;
+}
+.zoom {
+    transition: 0.001s ease;
+    -moz-transition: 0.001s ease; /* Firefox */
+    -webkit-transition: 0.001s ease; /* Chrome - Safari */
+    -o-transition: 0.001s ease; /* Opera */
+}
+.zoom:hover {
+    transform : scale(1.1);
+    -moz-transform : scale(1.1); /* Firefox */
+    -webkit-transform : scale(1.1); /* Chrome - Safari */
+    -o-transform : scale(1.1); /* Opera */
+    -ms-transform : scale(1.1); /* IE9 */
+}
+
+
+/*       ICONOS        */
+
+.icono-accesos {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-accesos.png") !important
+}
+.icono-almacen {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-almacen.png") !important
+}
+.icono-ingresar {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-ingresar.png") !important
+}
+.icono-principal {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-principal.png") !important
+}
+.icono-usuario {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-usuario.png") !important
+}
+.icono-datos {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-datos.png") !important
+}
+.icono-cambiar {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-cambiar.png") !important
+}
+.icono-agregar {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-agregar.png") !important
+}
+.icono-requerimiento {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-requerimiento.png") !important
+}
+.icono-aceptar {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-aceptar.png") !important
+}
+.icono-salir {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-salir.png") !important
+}
+.icono-quitar {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-quitar.png") !important
+}
+.icono-eliminar {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-eliminar.png") !important
+}
+.icono-editar {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-editar.png") !important
+}
+.icono-nuevo {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-nuevo.png") !important
+}
+.icono-apagar {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-apagar.png") !important
+}
+.icono-abrir {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-abrir.png") !important
+}
+.icono-cancelar {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-cancelar.png") !important
+}
+.icono-agregar2 {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-agregar2.png") !important
+}
+.icono-descargar {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-descargar.png") !important
+}
+.icono-requerimientos {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-requerimientos.png") !important
+}
+.icono-buscar {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-buscar.png") !important
+}
+.icono-evaluar {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-evaluar.png") !important
+}
+.icono-logo {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-logo.png") !important;
+}
+.icono-vacio {
+    margin-right: -10px;
+    background-image: url("./../../resources/img/icono.png") !important;
+}
+.icono-apagar {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-apagar.png") !important;
+}
+.icono-generar {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-generar.png") !important;
+}
+.icono-adjuntar {
+    background-image: url("./../../resources/img/icono-adjuntar.png") !important;
+}
+.icono-modificar {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-modificar.png") !important;
+}
+.icono-fecha {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-fecha.png") !important;
+}
+.icono-configuracion {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-configuracion.png") !important;
+}
+.icono-areas {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-areas.png") !important;
+}
+.icono-cargos {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-cargos.png") !important;
+}
+.icono-usuarios {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-usuarios.png") !important;
+}
+.icono-empleados {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-empleados.png") !important;
+}
+.icono-reportes {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-reportes.png") !important;
+}
+.icono-reporte {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-reporte.png") !important;
+}
+.icono-graficos {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-graficos.png") !important;
+}
+.icono-grafico {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-grafico.png") !important;
+}
+.icono-alerta {
+    margin-right: 4px;
+    background-image: url("./../../resources/img/icono-alerta.png") !important;
+}
+
+
+.ui-menu .ui-separator.me-separator { 
+    background: #a6c9e2; 
+    border: none; 
+    width: 1px; 
+    clear: none; 
+    height: 22px; 
+    margin: 4px 6px 0; 
+    box-shadow: none; 
+}
+hr {
+    width: 100%;
+    height: 0;
+    border-top: 1px solid #a6c9e2 !important;
+    border-bottom: 0 !important;
+}
+a {
+    color: black;
+    text-decoration: none;
+}
+a:hover {
+    color: #0070a3;
+    text-decoration: underline;
+}
+a:hover table {
+    color: #0070a3;
+    text-decoration: underline;
+}
+
+.ajustar {
+    width: 1px; 
+    white-space: nowrap;
+}
+.tablas-enlinea {
+    display: inline-flex;
+}
+.ui-corner-all {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+.ver {
+    background: #79b7e7 url("./../../resources/img/glassrow.png") 40% 80% repeat-x !important;
+    color: #1d5987;
+}
+.cancelado {
+    text-decoration: line-through;
+    color: #aaa;
+}
+.ui-datatable table {
+    table-layout: auto!important;
+}

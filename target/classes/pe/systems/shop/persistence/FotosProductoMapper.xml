@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pe.systems.shop.persistence.FotosProductoMapper">
+
+	 <insert id="registrarFoto" statementType="CALLABLE"
+		parameterType="FotosProducto">
+		<selectKey keyProperty="idFotoProducto" resultType="int"
+			order="BEFORE" statementType="PREPARED">
+			select ifnull(MAX(idFotoProducto),1000000)+1 from
+			fotosProducto
+		</selectKey>
+		insert into
+		fotosProducto(idFotoProducto,idProducto,nombreFoto)
+		values(#{idFotoProducto},#{producto.idProducto},#{nombreFoto});
+	</insert>
+	
+	<delete id="eliminarFoto" statementType="CALLABLE"
+		parameterType="Integer">
+		{CALL eliminarFoto (#{param1})};
+	</delete>
+	
+	<update id="actualizarFoto1" statementType="CALLABLE"
+		parameterType="FotosProducto">
+		update fotosProducto
+		set nombreServer=#{nombreServer}
+		where idFotoProducto =#{idFotoProducto};
+	</update>
+	
+
+	<select id="listarFotoProductos" statementType="CALLABLE"
+		resultMap="listFotosProducto">
+		Select * from fotosProducto where idProducto=#{param1};
+	</select>
+
+	<resultMap id="listFotosProducto" type="FotosProducto">
+		<id 	column="idFotoProducto" 	property="idFotoProducto" />
+		<result column="nombreServer" property="nombreServer" />
+		<result column="idProducto"	property="producto.idProducto" />
+	</resultMap>
+
+
+</mapper>
